@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
+import { LogOut } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -210,6 +211,23 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
+      
+      {/* Admin Header with Logout */}
+      <div className="bg-card border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
+              <p className="text-sm text-muted-foreground">Manage studio bookings and approvals</p>
+            </div>
+            <Button variant="outline" size="sm" onClick={logout} className="flex items-center space-x-2">
+              <LogOut className="h-4 w-4" />
+              <span>Log out</span>
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <section className="py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2">
@@ -245,9 +263,6 @@ const AdminDashboard = () => {
                   <span className="inline-block w-2 h-2 bg-success rounded-full" /> Has availability
                   <span className="inline-block w-2 h-2 bg-destructive rounded-full ml-3" /> Full
                 </div>
-                <Button variant="outline" size="sm" onClick={logout} className="ml-auto">
-                  Log out
-                </Button>
               </div>
             </CardContent>
           </Card>

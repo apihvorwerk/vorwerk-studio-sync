@@ -1,4 +1,4 @@
-import { Calendar, Users, LogIn } from "lucide-react";
+import { Calendar, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -30,10 +30,6 @@ const Navigation = () => {
                 <span>Book Studio</span>
               </Button>
             </Link>
-            <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-              <Users className="h-4 w-4" />
-              <span>My Bookings</span>
-            </Button>
             <Link to="/admin/login">
               <Button variant="outline" size="sm" className="flex items-center space-x-2">
                 <LogIn className="h-4 w-4" />
