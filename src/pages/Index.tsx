@@ -1,6 +1,5 @@
 import Navigation from "@/components/Navigation";
 import BookingForm from "@/components/BookingForm";
-import QRCode from "@/components/QRCode";
 import { Building2, Clock, Users, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -59,23 +58,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* QR Code Section - Mobile Optimized */}
-      <section className="py-8 md:py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-6 md:mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 md:mb-4">
-              📱 Quick Mobile Access
-            </h2>
-            <p className="text-sm md:text-base text-muted-foreground">
-              Scan the QR code below to access the booking system on your mobile device
-            </p>
-          </div>
-          
-          <div className="flex justify-center">
-            <QRCode />
-          </div>
-        </div>
-      </section>
 
       {/* Booking Form Section */}
       <section id="booking" className="py-12 md:py-16 px-4 sm:px-6 lg:px-8">
