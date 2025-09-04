@@ -1,15 +1,15 @@
 // src/pages/AdminDashboard.tsx
-import { useEffect, useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { format, isSameDay, isSameMonth } from "date-fns";
-import { toast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { Calendar } from "@/components/ui/calendar";
+import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
+import { format } from "date-fns";
+import { CalendarDays, Clock, User, Phone, Mail, Building, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -89,7 +89,6 @@ const AdminDashboard = () => {
   const [selected, setSelected] = useState<Date>(new Date());
   const [bookings, setBookingsState] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -102,43 +101,29 @@ const AdminDashboard = () => {
     fetchBookings();
   }, []);
 
-  const dayBookings = useMemo(
-    () =>
-      bookings
-        .filter(b => isSameDay(new Date(b.date), selected))
-        .sort((a, b) => a.session.localeCompare(b.session)),
-    [bookings, selected]
-  );
+  const dayBookings = bookings
+    .filter(b => new Date(b.date).toDateString() === selected.toDateString())
+    .sort((a, b) => a.session.localeCompare(b.session));
 
   // Treat pending + approved as occupying a slot
   const occupiedCount = dayBookings.filter(b => b.status !== "rejected").length;
   const remainingSlots = Math.max(DAILY_TOTAL_SLOTS - occupiedCount, 0);
 
   // Precompute month-day status to highlight the calendar
-  const monthDays = useMemo(() => {
-    const map = new Map<string, { occupied: number }>();
-    for (const b of bookings) {
-      const d = new Date(b.date);
-      if (!isSameMonth(d, selected)) continue;
-      const key = d.toDateString();
-      if (!map.has(key)) map.set(key, { occupied: 0 });
-      if (b.status !== "rejected") {
-        map.get(key)!.occupied += 1;
-      }
+  const monthDays = new Map<string, { occupied: number }>();
+  for (const b of bookings) {
+    const d = new Date(b.date);
+    if (!monthDays.has(d.toDateString())) monthDays.set(d.toDateString(), { occupied: 0 });
+    if (b.status !== "rejected") {
+      monthDays.get(d.toDateString())!.occupied += 1;
     }
-    return map;
-  }, [bookings, selected]);
+  }
 
-  const modifiers: Record<string, Date[]> = useMemo(() => {
-    const avail: Date[] = [];
-    const full: Date[] = [];
-    monthDays.forEach((v, k) => {
-      const d = new Date(k);
-      if (v.occupied >= DAILY_TOTAL_SLOTS) full.push(d);
-      else if (v.occupied > 0) avail.push(d);
-    });
-    return { full, avail };
-  }, [monthDays]);
+  const modifiers = {
+    booked: Array.from(monthDays.entries()).filter(([_, v]) => v.occupied >= DAILY_TOTAL_SLOTS).map(([k]) => new Date(k)),
+    pending: Array.from(monthDays.entries()).filter(([_, v]) => v.occupied > 0 && v.occupied < DAILY_TOTAL_SLOTS).map(([k]) => new Date(k)),
+    approved: Array.from(monthDays.entries()).filter(([_, v]) => v.occupied > 0 && v.occupied < DAILY_TOTAL_SLOTS).map(([k]) => new Date(k)),
+  };
 
   const updateStatus = async (id: string, status: BookingStatus) => {
     console.log('🎯 updateStatus called with:', { id, status });
@@ -200,27 +185,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("adminAuthed");
-    navigate("/admin/login", { replace: true });
-  };
-
-  // Build per-studio, per-session availability list for the selected date
-  const perStudioAvailability = useMemo(() => {
-    const dayMap = new Map<string, Set<string>>(); // studioId -> set of booked sessions
-    for (const b of dayBookings) {
-      if (b.status === "rejected") continue;
-      const set = dayMap.get(b.studio) ?? new Set<string>();
-      set.add(b.session);
-      dayMap.set(b.studio, set);
-    }
-    return ALL_STUDIOS.map(s => {
-      const booked = dayMap.get(s.id) ?? new Set<string>();
-      const available = s.sessions.filter(sess => !booked.has(sess));
-      return { studio: s, available, booked: Array.from(booked) };
-    });
-  }, [dayBookings]);
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
@@ -235,109 +199,111 @@ const AdminDashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
-      <section className="py-10 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Calendar</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Calendar
-                mode="single"
-                numberOfMonths={2}
-                paginatedNavigation
-                selected={selected}
-                onSelect={(d) => d && setSelected(d)}
-                className="p-3"
-                // Make the calendar visually larger
-                classNames={{
-                  day: "h-12 w-12 p-0 font-normal aria-selected:opacity-100",
-                  cell: "h-12 w-12 text-center text-sm p-0 relative focus-within:relative focus-within:z-20",
-                }}
-                modifiers={modifiers}
-                modifiersClassNames={{
-                  // subtle indicator colors
-                  avail: "after:content-[''] after:w-1.5 after:h-1.5 after:bg-success after:rounded-full after:absolute after:bottom-1 after:right-1",
-                  full: "after:content-[''] after:w-1.5 after:h-1.5 after:bg-destructive after:rounded-full after:absolute after:bottom-1 after:right-1",
-                }}
-              />
-              <div className="flex flex-wrap items-center gap-3 mt-4">
-                <div className="text-sm text-muted-foreground">{format(selected, "PPP")}</div>
-                <Badge variant={remainingSlots > 0 ? "default" : "destructive"}>
-                  {remainingSlots > 0 ? `${remainingSlots} slots available` : "Full"}
-                </Badge>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground ml-auto">
-                  <span className="inline-block w-2 h-2 bg-success rounded-full" /> Has availability
-                  <span className="inline-block w-2 h-2 bg-destructive rounded-full ml-3" /> Full
-                </div>
-                <Button variant="outline" size="sm" onClick={logout} className="ml-auto">
-                  Log out
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+      <section className="py-6 md:py-10 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Mobile-first header */}
+          <div className="mb-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Manage studio bookings and approvals</p>
+          </div>
 
-          <Card className="lg:col-span-1">
-            <CardHeader>
-              <CardTitle>Day Availability</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-sm mb-3">
-                Total slots: {DAILY_TOTAL_SLOTS} • Occupied: {occupiedCount} • Remaining: {remainingSlots}
-              </div>
-              <div className="space-y-4">
-                {perStudioAvailability.map(({ studio, available, booked }) => (
-                  <div key={studio.id} className="border rounded-lg p-3">
-                    <div className="font-medium">{studio.name}</div>
-                    <div className="mt-2 text-xs">
-                      <div className="text-muted-foreground">Available</div>
-                      {available.length === 0 ? (
-                        <div className="text-muted-foreground">None</div>
-                      ) : (
-                        <ul className="list-disc ml-5">
-                          {available.map(s => <li key={s}>{s}</li>)}
-                        </ul>
-                      )}
-                      <div className="mt-2 text-muted-foreground">Booked</div>
-                      {booked.length === 0 ? (
-                        <div className="text-muted-foreground">None</div>
-                      ) : (
-                        <ul className="list-disc ml-5">
-                          {booked.map(s => <li key={s}>{s}</li>)}
-                        </ul>
-                      )}
-                    </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            {/* Calendar - Full width on mobile, 2/3 on desktop */}
+            <Card className="lg:col-span-2 order-2 lg:order-1">
+              <CardHeader className="pb-3 md:pb-6">
+                <CardTitle className="text-lg md:text-xl">Calendar</CardTitle>
+              </CardHeader>
+              <CardContent className="p-3 md:p-6">
+                <Calendar
+                  mode="single"
+                  numberOfMonths={1}
+                  selected={selected}
+                  onSelect={(d) => d && setSelected(d)}
+                  className="w-full"
+                  classNames={{
+                    months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                    month: "space-y-4",
+                    caption: "flex justify-center pt-1 relative items-center text-sm md:text-base",
+                    caption_label: "text-sm md:text-base font-medium",
+                    nav: "space-x-1 flex items-center",
+                    nav_button: "h-8 w-8 md:h-10 md:w-10 bg-transparent p-0 opacity-50 hover:opacity-100",
+                    nav_button_previous: "absolute left-1",
+                    nav_button_next: "absolute right-1",
+                    table: "w-full border-collapse space-y-1",
+                    head_row: "flex",
+                    head_cell: "text-muted-foreground rounded-md w-8 md:w-12 font-normal text-xs md:text-sm",
+                    row: "flex w-full mt-2",
+                    cell: "h-8 w-8 md:h-12 md:w-12 text-center text-xs md:text-sm p-0 relative focus-within:relative focus-within:z-20",
+                    day: "h-8 w-8 md:h-12 md:w-12 p-0 font-normal aria-selected:opacity-100 hover:bg-accent rounded-md transition-colors",
+                    day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+                    day_today: "bg-accent text-accent-foreground",
+                    day_outside: "text-muted-foreground opacity-50",
+                    day_disabled: "text-muted-foreground opacity-50",
+                    day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
+                    day_hidden: "invisible",
+                  }}
+                  modifiers={modifiers}
+                  modifiersStyles={{
+                    booked: { backgroundColor: '#ef4444', color: 'white', borderRadius: '6px' },
+                    pending: { backgroundColor: '#f59e0b', color: 'white', borderRadius: '6px' },
+                    approved: { backgroundColor: '#10b981', color: 'white', borderRadius: '6px' }
+                  }}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Booking Stats - Stacked on mobile */}
+            <Card className="order-1 lg:order-2">
+              <CardHeader className="pb-3 md:pb-6">
+                <CardTitle className="text-lg md:text-xl">Booking Stats</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 md:space-y-4">
+                <div className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                  <div>
+                    <p className="text-xs md:text-sm font-medium text-yellow-800 dark:text-yellow-200">Pending</p>
+                    <p className="text-lg md:text-2xl font-bold text-yellow-900 dark:text-yellow-100">{bookings.filter(b => b.status === 'pending').length}</p>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  <Clock className="h-6 w-6 md:h-8 md:w-8 text-yellow-600" />
+                </div>
+                
+                <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                  <div>
+                    <p className="text-xs md:text-sm font-medium text-green-800 dark:text-green-200">Approved</p>
+                    <p className="text-lg md:text-2xl font-bold text-green-900 dark:text-green-100">{bookings.filter(b => b.status === 'approved').length}</p>
+                  </div>
+                  <CalendarDays className="h-6 w-6 md:h-8 md:w-8 text-green-600" />
+                </div>
+                
+                <div className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+                  <div>
+                    <p className="text-xs md:text-sm font-medium text-red-800 dark:text-red-200">Rejected</p>
+                    <p className="text-lg md:text-2xl font-bold text-red-900 dark:text-red-100">{bookings.filter(b => b.status === 'rejected').length}</p>
+                  </div>
+                  <Building className="h-6 w-6 md:h-8 md:w-8 text-red-600" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          <Card className="lg:col-span-3">
-            <CardHeader>
-              <CardTitle>Bookings for {format(selected, "PPP")}</CardTitle>
+          {/* Bookings List - Mobile optimized */}
+          <Card className="mt-4 md:mt-6">
+            <CardHeader className="pb-3 md:pb-6">
+              <CardTitle className="text-lg md:text-xl">Recent Bookings</CardTitle>
             </CardHeader>
-            <CardContent>
-              {dayBookings.length === 0 ? (
-                <p className="text-muted-foreground">No bookings for this day.</p>
+            <CardContent className="p-3 md:p-6">
+              {bookings.length === 0 ? (
+                <div className="text-center py-8 md:py-12">
+                  <CalendarDays className="h-12 w-12 md:h-16 md:w-16 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground text-sm md:text-base">No bookings found</p>
+                </div>
               ) : (
-                <div className="space-y-3">
-                  {dayBookings.map(b => (
-                    <div key={b.id} className="flex flex-col md:flex-row md:items-center md:justify-between border rounded-lg p-4 bg-card">
-                      <div className="space-y-1">
-                        <div className="font-medium text-foreground">{b.team_leader_name} ({b.team_leader_id})</div>
-                        <div className="text-sm text-muted-foreground">{b.email} • {b.phone}</div>
-                        <div className="text-sm">Studio: <span className="font-medium">{b.studio}</span> • Session: <span className="font-medium">{b.session}</span></div>
-                        {b.notes && <div className="text-sm text-muted-foreground">Notes: {b.notes}</div>}
-                      </div>
-                      <div className="flex items-center gap-2 mt-3 md:mt-0">
-                        <Badge variant={b.status === "approved" ? "default" : b.status === "rejected" ? "destructive" : "secondary"}>
-                          {b.status}
-                        </Badge>
-                        <Button size="sm" variant="success" onClick={() => updateStatus(b.id, "approved")}>Approve</Button>
-                        <Button size="sm" variant="destructive" onClick={() => updateStatus(b.id, "rejected")}>Reject</Button>
-                      </div>
-                    </div>
+                <div className="space-y-3 md:space-y-4">
+                  {bookings.map((booking) => (
+                    <MobileBookingCard 
+                      key={booking.id} 
+                      booking={booking} 
+                      onUpdateStatus={updateStatus}
+                    />
                   ))}
                 </div>
               )}
@@ -345,6 +311,109 @@ const AdminDashboard = () => {
           </Card>
         </div>
       </section>
+    </div>
+  );
+};
+
+// Mobile-optimized booking card component
+const MobileBookingCard = ({ booking, onUpdateStatus }: { 
+  booking: any; 
+  onUpdateStatus: (id: string, status: any) => void;
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'approved': return 'bg-green-100 text-green-800 border-green-200';
+      case 'rejected': return 'bg-red-100 text-red-800 border-red-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  return (
+    <div className="border border-border rounded-lg p-3 md:p-4 bg-card">
+      {/* Header - Always visible */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-sm md:text-base text-foreground truncate">
+            {booking.team_leader_name}
+          </h3>
+          <p className="text-xs md:text-sm text-muted-foreground">
+            {booking.studio} • {format(new Date(booking.date), 'MMM dd, yyyy')}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge className={`text-xs px-2 py-1 ${getStatusColor(booking.status)}`}>
+            {booking.status}
+          </Badge>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="p-1"
+          >
+            {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Expanded Details */}
+      {isExpanded && (
+        <div className="space-y-3 pt-3 border-t border-border">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs md:text-sm">
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <span className="text-muted-foreground">ID:</span>
+              <span className="font-medium">{booking.team_leader_id}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <span className="text-muted-foreground">Email:</span>
+              <span className="font-medium truncate">{booking.email}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <span className="text-muted-foreground">Phone:</span>
+              <span className="font-medium">{booking.phone}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+              <span className="text-muted-foreground">Session:</span>
+              <span className="font-medium">{booking.session}</span>
+            </div>
+          </div>
+          
+          {booking.notes && (
+            <div className="flex gap-2">
+              <MessageSquare className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+              <div>
+                <span className="text-muted-foreground text-xs md:text-sm">Notes:</span>
+                <p className="text-xs md:text-sm font-medium mt-1">{booking.notes}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          {booking.status === 'pending' && (
+            <div className="flex gap-2 pt-2">
+              <Button
+                onClick={() => onUpdateStatus(booking.id, 'approved')}
+                className="flex-1 h-9 text-sm bg-green-600 hover:bg-green-700"
+              >
+                ✅ Approve
+              </Button>
+              <Button
+                onClick={() => onUpdateStatus(booking.id, 'rejected')}
+                variant="destructive"
+                className="flex-1 h-9 text-sm"
+              >
+                ❌ Reject
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
