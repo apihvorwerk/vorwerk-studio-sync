@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
-import { LogOut } from "lucide-react";
+import { LogOut, Trash2 } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -176,6 +176,51 @@ const AdminDashboard = () => {
     }
   };
 
+  const deleteBooking = async (id: string) => {
+    console.log('🗑️ deleteBooking called with:', { id });
+    
+    // Show confirmation dialog
+    const confirmed = window.confirm('Are you sure you want to delete this booking? This action cannot be undone.');
+    if (!confirmed) {
+      return;
+    }
+    
+    try {
+      // Delete from database
+      const { error } = await supabase
+        .from('bookings')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('Database delete error:', error);
+        toast({
+          title: "Delete Failed",
+          description: "Failed to delete booking from database.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Update local state
+      setBookingsState(prev => prev.filter(booking => booking.id !== id));
+
+      toast({
+        title: "Booking Deleted",
+        description: "Booking has been successfully deleted.",
+        variant: "default",
+      });
+
+    } catch (error) {
+      console.error('Delete booking error:', error);
+      toast({
+        title: "Delete Failed",
+        description: "An unexpected error occurred while deleting the booking.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("adminAuthed");
     navigate("/admin/login", { replace: true });
@@ -326,6 +371,14 @@ const AdminDashboard = () => {
                         </Badge>
                         <Button size="sm" variant="success" onClick={() => updateStatus(b.id, "approved")}>Approve</Button>
                         <Button size="sm" variant="destructive" onClick={() => updateStatus(b.id, "rejected")}>Reject</Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={() => deleteBooking(b.id)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   ))}
