@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Smartphone } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
@@ -159,81 +159,73 @@ const BookingForm = () => {
 
   return (
     <Card className="w-full max-w-2xl mx-auto shadow-medium">
-      <CardHeader className="text-center bg-gradient-subtle rounded-t-lg px-4 py-6">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Smartphone className="h-6 w-6 text-primary md:hidden" />
-          <CardTitle className="text-xl md:text-2xl text-foreground">Studio Booking Request</CardTitle>
-        </div>
-        <p className="text-sm md:text-base text-muted-foreground">Book your studio session at least 14 days in advance</p>
+      <CardHeader className="text-center bg-gradient-subtle rounded-t-lg">
+        <CardTitle className="text-2xl text-foreground">Studio Booking Request</CardTitle>
+        <p className="text-muted-foreground">Book your studio session at least 14 days in advance</p>
       </CardHeader>
-      <CardContent className="p-4 md:p-6">
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-          {/* Mobile-first: Stack all fields on mobile, grid on desktop */}
-          <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+      <CardContent className="p-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="teamLeaderName" className="text-sm font-medium">Team Leader Name *</Label>
+              <Label htmlFor="teamLeaderName">Team Leader Name *</Label>
               <Input
                 id="teamLeaderName"
                 value={formData.teamLeaderName}
                 onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderName: e.target.value }))}
                 placeholder="Enter full name"
-                className="h-11 text-base transition-colors focus:ring-primary"
+                className="transition-colors focus:ring-primary"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="teamLeaderId" className="text-sm font-medium">Team Leader ID *</Label>
+              <Label htmlFor="teamLeaderId">Team Leader ID *</Label>
               <Input
                 id="teamLeaderId"
                 value={formData.teamLeaderId}
                 onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderId: e.target.value }))}
                 placeholder="e.g., TL123456"
-                className="h-11 text-base transition-colors focus:ring-primary"
+                className="transition-colors focus:ring-primary"
               />
             </div>
           </div>
 
-          <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">Email Address *</Label>
+              <Label htmlFor="email">Email Address *</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 placeholder="name@vorwerk.com"
-                className="h-11 text-base transition-colors focus:ring-primary"
-                inputMode="email"
-                autoComplete="email"
+                className="transition-colors focus:ring-primary"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium">Phone Number *</Label>
+              <Label htmlFor="phone">Phone Number *</Label>
               <Input
                 id="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                 placeholder="+49 123 456 7890"
-                className="h-11 text-base transition-colors focus:ring-primary"
-                inputMode="tel"
-                autoComplete="tel"
+                className="transition-colors focus:ring-primary"
               />
             </div>
           </div>
 
-          <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="studio" className="text-sm font-medium">Studio Location *</Label>
+              <Label htmlFor="studio">Studio Location *</Label>
               <Select 
                 value={formData.studio} 
                 onValueChange={(value) => setFormData(prev => ({ ...prev, studio: value, session: "" }))}
               >
-                <SelectTrigger className="h-11 text-base transition-colors focus:ring-primary">
+                <SelectTrigger className="transition-colors focus:ring-primary">
                   <SelectValue placeholder="Select a studio" />
                 </SelectTrigger>
                 <SelectContent>
                   {studios.map((studio) => (
-                    <SelectItem key={studio.id} value={studio.id} className="text-base py-3">
+                    <SelectItem key={studio.id} value={studio.id}>
                       {studio.name}
                     </SelectItem>
                   ))}
@@ -241,18 +233,18 @@ const BookingForm = () => {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="session" className="text-sm font-medium">Session Time *</Label>
+              <Label htmlFor="session">Session Time *</Label>
               <Select 
                 value={formData.session} 
                 onValueChange={(value) => setFormData(prev => ({ ...prev, session: value }))}
                 disabled={!formData.studio}
               >
-                <SelectTrigger className="h-11 text-base transition-colors focus:ring-primary">
+                <SelectTrigger className="transition-colors focus:ring-primary">
                   <SelectValue placeholder="Select session time" />
                 </SelectTrigger>
                 <SelectContent>
                   {selectedStudio?.sessions.map((session) => (
-                    <SelectItem key={session} value={session} className="text-base py-3">
+                    <SelectItem key={session} value={session}>
                       {session}
                     </SelectItem>
                   ))}
@@ -262,57 +254,51 @@ const BookingForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="date" className="text-sm font-medium">Booking Date *</Label>
+            <Label htmlFor="date">Booking Date *</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full h-11 justify-start text-left font-normal text-base",
+                    "w-full justify-start text-left font-normal",
                     !formData.date && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4 flex-shrink-0" />
-                  <span className="truncate">
-                    {formData.date ? format(formData.date, "PPP") : "Select booking date"}
-                  </span>
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {formData.date ? format(formData.date, "PPP") : "Select booking date"}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start" side="bottom">
+              <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
                   selected={formData.date || undefined}
                   onSelect={(date) => setFormData(prev => ({ ...prev, date: date || null }))}
                   disabled={(date) => date < minDate}
                   initialFocus
-                  className="p-3"
-                  classNames={{
-                    day: "h-10 w-10 p-0 font-normal aria-selected:opacity-100 text-sm",
-                    cell: "h-10 w-10 text-center text-sm p-0 relative focus-within:relative focus-within:z-20",
-                  }}
+                  className={cn("p-3 pointer-events-auto")}
                 />
               </PopoverContent>
             </Popover>
-            <p className="text-xs md:text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Bookings must be made at least 14 days in advance
             </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="notes" className="text-sm font-medium">Additional Notes (Optional)</Label>
+            <Label htmlFor="notes">Additional Notes (Optional)</Label>
             <Textarea
               id="notes"
               value={formData.notes}
               onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
               placeholder="Any special requirements or additional information..."
               rows={3}
-              className="text-base transition-colors focus:ring-primary resize-none"
+              className="transition-colors focus:ring-primary"
             />
           </div>
 
           <Button 
             type="submit" 
-            className="w-full h-12 text-base font-medium" 
+            className="w-full" 
             variant="gradient"
             size="lg"
             disabled={isSubmitting}
