@@ -43,6 +43,7 @@ const AdminDashboard = () => {
   const [bookings, setBookingsState] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [showManualBookingForm, setShowManualBookingForm] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const AdminDashboard = () => {
     const map = new Map<string, { occupied: number }>();
     for (const b of bookings) {
       const d = new Date(b.date);
-      if (!isSameMonth(d, selected)) continue;
+      if (!isSameMonth(d, currentMonth)) continue;
       const key = d.toDateString();
       if (!map.has(key)) map.set(key, { occupied: 0 });
       if (b.status !== "rejected") {
@@ -80,7 +81,7 @@ const AdminDashboard = () => {
       }
     }
     return map;
-  }, [bookings, selected]);
+  }, [bookings, currentMonth]);
 
   const modifiers: Record<string, Date[]> = useMemo(() => {
     const avail: Date[] = [];
@@ -305,6 +306,7 @@ const AdminDashboard = () => {
                 paginatedNavigation
                 selected={selected}
                 onSelect={(d) => d && setSelected(d)}
+                onMonthChange={(d) => d && setCurrentMonth(d)}
                 className="p-3"
                 // Make the calendar visually larger
                 classNames={{
