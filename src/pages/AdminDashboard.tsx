@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Navigation from "@/components/Navigation";
 import AdminBookingForm from "@/components/AdminBookingForm";
+import ReportGenerator from "@/components/ReportGenerator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -11,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
-import { Trash2, Plus, LogOut } from "lucide-react";
+import { Trash2, Plus, LogOut, FileSpreadsheet } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -43,6 +44,7 @@ const AdminDashboard = () => {
   const [bookings, setBookingsState] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [showManualBookingForm, setShowManualBookingForm] = useState(false);
+  const [showReportGenerator, setShowReportGenerator] = useState(false);
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const navigate = useNavigate();
 
@@ -280,6 +282,15 @@ const AdminDashboard = () => {
             </div>
             <div className="flex items-center gap-3">
               <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowReportGenerator(true)}
+                className="flex items-center space-x-2"
+              >
+                <FileSpreadsheet className="h-4 w-4" />
+                <span>Generate Report</span>
+              </Button>
+              <Button 
                 variant="default" 
                 size="sm" 
                 onClick={() => setShowManualBookingForm(true)}
@@ -385,11 +396,11 @@ const AdminDashboard = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  onClick={() => setShowManualBookingForm(true)}
+                  onClick={() => setShowReportGenerator(true)}
                   className="flex items-center space-x-2"
                 >
-                  <Plus className="h-4 w-4" />
-                  <span>Add Booking</span>
+                  <FileSpreadsheet className="h-4 w-4" />
+                  <span>Generate Report</span>
                 </Button>
               </div>
             </CardHeader>
@@ -446,6 +457,14 @@ const AdminDashboard = () => {
           selectedDate={selected}
           onBookingCreated={handleBookingCreated}
           onClose={() => setShowManualBookingForm(false)}
+        />
+      )}
+
+      {/* Report Generator Modal */}
+      {showReportGenerator && (
+        <ReportGenerator
+          bookings={bookings}
+          onClose={() => setShowReportGenerator(false)}
         />
       )}
     </div>
