@@ -1,73 +1,120 @@
-# Welcome to your Lovable project
+# Welcome to Vorwerk Studio Booking System
 
-## Project info
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**URL**: https://lovable.dev/projects/423328b2-0073-46b4-9050-dd4c209f0cc8
+## Table of Contents
+- [About](#-about)
+- [Features](#-features)
+- [Demo](#-demo)
+- [Screenshots](#-screenshots)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Development](#-development)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-## How can I edit this code?
+## 🚀 About
+Vorwerk Studio Booking System is a modern web application for managing projects and tasks. It provides an intuitive interface for both administrators and end-users to schedule, manage and track project progress.
 
-There are several ways of editing your application.
+Built with Vite, TypeScript, React, shadcn-ui, and Tailwind CSS, Lovable Project offers a responsive design that works seamlessly across desktop and mobile devices.
 
-**Use Lovable**
+## ✨ Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/423328b2-0073-46b4-9050-dd4c209f0cc8) and start prompting.
+### For Users
+- 📅 Intuitive project calendar with real-time updates
+- 🔍 Search and filter available tasks
+- ✉️ Email notifications for task assignments and reminders
+- 📱 Mobile-responsive design
+- 🔄 Easy task rescheduling and cancellation
 
-Changes made via Lovable will be committed automatically to this repo.
+### For Administrators
+- 👥 User management and access control
+- 📊 Dashboard with project analytics
+- 📝 Manual task creation
+- 📊 Report generation with filtering options
+- 📤 Export project data to CSV
+- 🛠️ Project and task management
 
-**Use your preferred IDE**
+## 🧪 Demo
+A live already deployed. Here the link: https://vorwerk-studio-sync.vercel.app/
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📸 Screenshots
+*Screenshots will be added soon*
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Installation
 
-Follow these steps:
+### Prerequisites
+- Node.js 16+ and npm/yarn
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Quick Start
+1. Clone the repository:
+   ```bash
+   git clone <YOUR_GIT_URL>
+   cd <YOUR_PROJECT_NAME>
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
+   ```bash
+   npm i
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## ⚙️ Configuration
+
+### Lovable Setup
+1. Create a new project in Lovable
+2. Set up the required settings:
+   - Project name and description
+   - User roles and permissions
+3. Enable project analytics and reporting
+
+## 💻 Development
+
+### Scripts
+- `dev` - Start development server
+- `build` - Build for production
+- `preview` - Preview production build
+- `lint` - Run ESLint
+
+### Project Structure
+```
+src/
+├── components/     # Reusable UI components
+├── hooks/         # Custom React hooks
+├── lib/           # Utility functions and services
+├── pages/         # Application pages
+└── styles/        # Global styles
 ```
 
-**Edit a file directly in GitHub**
+## 🚀 Deployment
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Lovable (Recommended)
+1. Open [Lovable](https://lovable.dev/projects/423328b2-0073-46b4-9050-dd4c209f0cc8) and click on Share -> Publish.
 
-**Use GitHub Codespaces**
+### GitHub Pages
+1. Push your code to a GitHub/GitLab/Bitbucket repository
+2. Create a new site in GitHub Pages and import your repository
+3. Set the build command: `npm run build` or `yarn build`
+4. Set the publish directory: `dist`
+5. Add environment variables
+6. Deploy site
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🤝 Contributing
+Contributions are welcome! Please follow these steps:
 
-## What technologies are used for this project?
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-This project is built with:
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/423328b2-0073-46b4-9050-dd4c209f0cc8) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📞 Contact
+For support or questions, please open an issue on GitHub.
