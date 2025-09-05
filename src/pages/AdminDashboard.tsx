@@ -1,6 +1,7 @@
 // src/pages/AdminDashboard.tsx
 import { useEffect, useMemo, useState } from "react";
 import Navigation from "@/components/Navigation";
+import AdminBookingForm from "@/components/AdminBookingForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -10,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
-import { LogOut, Trash2 } from "lucide-react";
+import { LogOut, Trash2, Plus } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -41,6 +42,7 @@ const AdminDashboard = () => {
   const [selected, setSelected] = useState<Date>(new Date());
   const [bookings, setBookingsState] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showManualBookingForm, setShowManualBookingForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -242,6 +244,16 @@ const AdminDashboard = () => {
     });
   }, [dayBookings]);
 
+  const handleBookingCreated = () => {
+    // Refresh bookings after a new booking is created
+    const fetchBookings = async () => {
+      const { data, error } = await supabase.from('bookings').select('*');
+      if (error) console.error('Error fetching bookings:', error);
+      else setBookingsState(data || []);
+    };
+    fetchBookings();
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-subtle flex items-center justify-center">
@@ -265,10 +277,21 @@ const AdminDashboard = () => {
               <h1 className="text-2xl font-bold text-foreground">Admin Dashboard</h1>
               <p className="text-sm text-muted-foreground">Manage studio bookings and approvals</p>
             </div>
-            <Button variant="outline" size="sm" onClick={logout} className="flex items-center space-x-2">
-              <LogOut className="h-4 w-4" />
-              <span>Log out</span>
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="default" 
+                size="sm" 
+                onClick={() => setShowManualBookingForm(true)}
+                className="flex items-center space-x-2"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Add Booking</span>
+              </Button>
+              <Button variant="outline" size="sm" onClick={logout} className="flex items-center space-x-2">
+                <LogOut className="h-4 w-4" />
+                <span>Log out</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -350,11 +373,32 @@ const AdminDashboard = () => {
 
           <Card className="lg:col-span-3">
             <CardHeader>
-              <CardTitle>Bookings for {format(selected, "PPP")}</CardTitle>
+              <div className="flex justify-between items-center">
+                <CardTitle>Bookings for {format(selected, "PPP")}</CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setShowManualBookingForm(true)}
+                  className="flex items-center space-x-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add Booking</span>
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               {dayBookings.length === 0 ? (
-                <p className="text-muted-foreground">No bookings for this day.</p>
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground mb-4">No bookings for this day.</p>
+                  <Button 
+                    variant="default" 
+                    onClick={() => setShowManualBookingForm(true)}
+                    className="flex items-center space-x-2"
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>Create First Booking</span>
+                  </Button>
+                </div>
               ) : (
                 <div className="space-y-3">
                   {dayBookings.map(b => (
@@ -388,6 +432,15 @@ const AdminDashboard = () => {
           </Card>
         </div>
       </section>
+
+      {/* Manual Booking Form Modal */}
+      {showManualBookingForm && (
+        <AdminBookingForm
+          selectedDate={selected}
+          onBookingCreated={handleBookingCreated}
+          onClose={() => setShowManualBookingForm(false)}
+        />
+      )}
     </div>
   );
 };
