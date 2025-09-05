@@ -6,11 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, X, Download, FileSpreadsheet } from "lucide-react";
+import { CalendarIcon, X, FileSpreadsheet } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
-import * as XLSX from 'xlsx';
 
 interface Booking {
   id: string;
@@ -47,6 +46,8 @@ const studios = [
 ];
 
 const ReportGenerator = ({ bookings, onClose }: ReportGeneratorProps) => {
+  console.log('ReportGenerator component rendered with', bookings.length, 'bookings');
+  
   const [filters, setFilters] = useState<ReportFilters>({
     startDate: null,
     endDate: null,
@@ -93,62 +94,41 @@ const ReportGenerator = ({ bookings, onClose }: ReportGeneratorProps) => {
     return { total, approved, pending, rejected, studioStats };
   }, [filteredBookings]);
 
-  const exportToExcel = () => {
+  const exportToCSV = () => {
     try {
-      // Prepare data for Excel
-      const excelData = filteredBookings.map(booking => ({
-        'Booking ID': booking.id,
-        'Team Leader Name': booking.team_leader_name,
-        'Team Leader ID': booking.team_leader_id,
-        'Email': booking.email,
-        'Phone': booking.phone,
-        'Studio': booking.studio,
-        'Session': booking.session,
-        'Date': format(new Date(booking.date), 'yyyy-MM-dd'),
-        'Status': booking.status,
-        'Notes': booking.notes,
-        'Created At': format(new Date(booking.created_at), 'yyyy-MM-dd HH:mm:ss')
-      }));
+      // Create CSV content
+      const headers = ['Booking ID', 'Team Leader Name', 'Team Leader ID', 'Email', 'Phone', 'Studio', 'Session', 'Date', 'Status', 'Notes', 'Created At'];
+      const csvContent = [
+        headers.join(','),
+        ...filteredBookings.map(booking => [
+          booking.id,
+          `"${booking.team_leader_name}"`,
+          booking.team_leader_id,
+          booking.email,
+          booking.phone,
+          booking.studio,
+          `"${booking.session}"`,
+          format(new Date(booking.date), 'yyyy-MM-dd'),
+          booking.status,
+          `"${booking.notes.replace(/"/g, '""')}"`,
+          format(new Date(booking.created_at), 'yyyy-MM-dd HH:mm:ss')
+        ].join(','))
+      ].join('\n');
 
-      // Create workbook and worksheet
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(excelData);
-
-      // Auto-size columns
-      const colWidths = Object.keys(excelData[0] || {}).map(key => ({
-        wch: Math.max(key.length, 15)
-      }));
-      ws['!cols'] = colWidths;
-
-      // Add worksheet to workbook
-      XLSX.utils.book_append_sheet(wb, ws, 'Bookings Report');
-
-      // Create summary sheet
-      const summaryData = [
-        { Metric: 'Total Bookings', Value: reportStats.total },
-        { Metric: 'Approved', Value: reportStats.approved },
-        { Metric: 'Pending', Value: reportStats.pending },
-        { Metric: 'Rejected', Value: reportStats.rejected },
-        { Metric: '', Value: '' }, // Empty row
-        ...reportStats.studioStats.map(studio => ({
-          Metric: `${studio.name} Bookings`,
-          Value: studio.count
-        }))
-      ];
-
-      const summaryWs = XLSX.utils.json_to_sheet(summaryData);
-      summaryWs['!cols'] = [{ wch: 20 }, { wch: 15 }];
-      XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
-
-      // Generate filename with current date
-      const filename = `booking-report-${format(new Date(), 'yyyy-MM-dd')}.xlsx`;
-
-      // Save file
-      XLSX.writeFile(wb, filename);
+      // Create and download file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `booking-report-${format(new Date(), 'yyyy-MM-dd')}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       toast({
         title: "Report Exported",
-        description: `Excel report has been downloaded as ${filename}`,
+        description: `CSV report has been downloaded with ${filteredBookings.length} records`,
         variant: "default",
       });
     } catch (error) {
@@ -184,7 +164,7 @@ const ReportGenerator = ({ bookings, onClose }: ReportGeneratorProps) => {
             <X className="h-4 w-4" />
           </Button>
           <CardTitle className="text-2xl text-foreground">Generate Booking Report</CardTitle>
-          <p className="text-muted-foreground">Filter and export booking data to Excel</p>
+          <p className="text-muted-foreground">Filter and export booking data to CSV</p>
         </CardHeader>
         <CardContent className="p-6">
           {/* Filters Section */}
@@ -349,13 +329,13 @@ const ReportGenerator = ({ bookings, onClose }: ReportGeneratorProps) => {
                 Cancel
               </Button>
               <Button 
-                onClick={exportToExcel}
+                onClick={exportToCSV}
                 className="flex-1" 
                 variant="default"
                 disabled={filteredBookings.length === 0}
               >
                 <FileSpreadsheet className="mr-2 h-4 w-4" />
-                Export to Excel ({filteredBookings.length} records)
+                Export to CSV ({filteredBookings.length} records)
               </Button>
             </div>
           </div>

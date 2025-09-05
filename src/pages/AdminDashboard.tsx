@@ -462,10 +462,17 @@ const AdminDashboard = () => {
 
       {/* Report Generator Modal */}
       {showReportGenerator && (
-        <ReportGenerator
-          bookings={bookings}
-          onClose={() => setShowReportGenerator(false)}
-        />
+        <>
+          {console.log('Rendering ReportGenerator modal, showReportGenerator:', showReportGenerator)}
+          {console.log('Bookings data:', bookings.length, 'bookings')}
+          <ReportGenerator
+            bookings={bookings}
+            onClose={() => {
+              console.log('ReportGenerator onClose called');
+              setShowReportGenerator(false);
+            }}
+          />
+        </>
       )}
     </div>
   );
