@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
-import { LogOut, Trash2, Plus } from "lucide-react";
+import { Trash2, Plus } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -286,10 +286,6 @@ const AdminDashboard = () => {
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Booking</span>
-              </Button>
-              <Button variant="outline" size="sm" onClick={logout} className="flex items-center space-x-2">
-                <LogOut className="h-4 w-4" />
-                <span>Log out</span>
               </Button>
             </div>
           </div>
