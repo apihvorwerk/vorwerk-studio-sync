@@ -85,43 +85,50 @@ const AdminLogin = () => {
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
+      <section className="py-8 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md mx-auto">
           <Card className="shadow-medium">
-            <CardHeader>
-              <CardTitle>Admin Login</CardTitle>
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-xl sm:text-2xl">Admin Login</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">Access the admin dashboard</p>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={onSubmit} className="space-y-4">
+            <CardContent className="p-4 sm:p-6">
+              <form onSubmit={onSubmit} className="space-y-4 sm:space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-sm font-medium">Email</Label>
                   <Input 
                     id="email" 
                     type="email" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@vorwerk.com"
+                    className="h-11 text-base"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-sm font-medium">Password</Label>
                   <Input 
                     id="password" 
                     type="password" 
                     value={pass} 
                     onChange={(e) => setPass(e.target.value)}
                     placeholder="Enter your password"
+                    className="h-11 text-base"
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button 
+                  type="submit" 
+                  className="w-full h-11 text-base font-medium" 
+                  disabled={loading}
+                >
                   {loading ? "Signing in..." : "Sign in"}
                 </Button>
               </form>
             </CardContent>
           </Card>
-          <p className="text-xs text-muted-foreground mt-3 text-center">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-4 text-center px-4">
             Contact system administrator for access credentials
           </p>
         </div>

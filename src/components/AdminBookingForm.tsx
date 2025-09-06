@@ -133,7 +133,7 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-lg">
-        <CardHeader className="text-center bg-gradient-subtle rounded-t-lg relative">
+        <CardHeader className="text-center bg-gradient-subtle rounded-t-lg relative px-4 py-6 sm:px-6">
           <Button
             variant="ghost"
             size="sm"
@@ -142,72 +142,72 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
           >
             <X className="h-4 w-4" />
           </Button>
-          <CardTitle className="text-2xl text-foreground">Create Manual Booking</CardTitle>
-          <p className="text-muted-foreground">Add a booking directly as an admin</p>
+          <CardTitle className="text-xl sm:text-2xl text-foreground">Create Manual Booking</CardTitle>
+          <p className="text-sm text-muted-foreground mt-2">Add a booking directly as an admin</p>
         </CardHeader>
-        <CardContent className="p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CardContent className="p-4 sm:p-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="teamLeaderName">Team Leader Name *</Label>
+                <Label htmlFor="teamLeaderName" className="text-sm font-medium">Team Leader Name *</Label>
                 <Input
                   id="teamLeaderName"
                   value={formData.teamLeaderName}
                   onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderName: e.target.value }))}
                   placeholder="Enter full name"
-                  className="transition-colors focus:ring-primary"
+                  className="transition-colors focus:ring-primary h-11 text-base"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="teamLeaderId">Team Leader ID *</Label>
+                <Label htmlFor="teamLeaderId" className="text-sm font-medium">Team Leader ID *</Label>
                 <Input
                   id="teamLeaderId"
                   value={formData.teamLeaderId}
                   onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderId: e.target.value }))}
                   placeholder="e.g., TL123456"
-                  className="transition-colors focus:ring-primary"
+                  className="transition-colors focus:ring-primary h-11 text-base"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
+                <Label htmlFor="email" className="text-sm font-medium">Email Address *</Label>
                 <Input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   placeholder="name@vorwerk.com"
-                  className="transition-colors focus:ring-primary"
+                  className="transition-colors focus:ring-primary h-11 text-base"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
+                <Label htmlFor="phone" className="text-sm font-medium">Phone Number *</Label>
                 <Input
                   id="phone"
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                   placeholder="+49 123 456 7890"
-                  className="transition-colors focus:ring-primary"
+                  className="transition-colors focus:ring-primary h-11 text-base"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="studio">Studio Location *</Label>
+                <Label htmlFor="studio" className="text-sm font-medium">Studio Location *</Label>
                 <Select 
                   value={formData.studio} 
                   onValueChange={(value) => setFormData(prev => ({ ...prev, studio: value, session: "" }))}
                 >
-                  <SelectTrigger className="transition-colors focus:ring-primary">
+                  <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
                     <SelectValue placeholder="Select a studio" />
                   </SelectTrigger>
                   <SelectContent>
                     {studios.map((studio) => (
-                      <SelectItem key={studio.id} value={studio.id}>
+                      <SelectItem key={studio.id} value={studio.id} className="text-base py-3">
                         {studio.name}
                       </SelectItem>
                     ))}
@@ -215,18 +215,18 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="session">Session Time *</Label>
+                <Label htmlFor="session" className="text-sm font-medium">Session Time *</Label>
                 <Select 
                   value={formData.session} 
                   onValueChange={(value) => setFormData(prev => ({ ...prev, session: value }))}
                   disabled={!formData.studio}
                 >
-                  <SelectTrigger className="transition-colors focus:ring-primary">
+                  <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
                     <SelectValue placeholder="Select session time" />
                   </SelectTrigger>
                   <SelectContent>
                     {selectedStudio?.sessions.map((session) => (
-                      <SelectItem key={session} value={session}>
+                      <SelectItem key={session} value={session} className="text-base py-3">
                         {session}
                       </SelectItem>
                     ))}
@@ -235,20 +235,22 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="date">Booking Date *</Label>
+                <Label htmlFor="date" className="text-sm font-medium">Booking Date *</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal",
+                        "w-full justify-start text-left font-normal h-11 text-base",
                         !formData.date && "text-muted-foreground"
                       )}
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {formData.date ? format(formData.date, "PPP") : "Select booking date"}
+                      <CalendarIcon className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">
+                        {formData.date ? format(formData.date, "PPP") : "Select booking date"}
+                      </span>
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -263,47 +265,47 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
                 </Popover>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="status">Booking Status *</Label>
+                <Label htmlFor="status" className="text-sm font-medium">Booking Status *</Label>
                 <Select 
                   value={formData.status} 
                   onValueChange={(value: BookingStatus) => setFormData(prev => ({ ...prev, status: value }))}
                 >
-                  <SelectTrigger className="transition-colors focus:ring-primary">
+                  <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
+                    <SelectItem value="approved" className="text-base py-3">Approved</SelectItem>
+                    <SelectItem value="pending" className="text-base py-3">Pending</SelectItem>
+                    <SelectItem value="rejected" className="text-base py-3">Rejected</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes">Additional Notes (Optional)</Label>
+              <Label htmlFor="notes" className="text-sm font-medium">Additional Notes (Optional)</Label>
               <Textarea
                 id="notes"
                 value={formData.notes}
                 onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
                 placeholder="Any special requirements or additional information..."
                 rows={3}
-                className="transition-colors focus:ring-primary"
+                className="transition-colors focus:ring-primary text-base resize-none"
               />
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button 
                 type="button" 
                 variant="outline" 
                 onClick={onClose}
-                className="flex-1"
+                className="flex-1 h-11 text-base"
               >
                 Cancel
               </Button>
               <Button 
                 type="submit" 
-                className="flex-1" 
+                className="flex-1 h-11 text-base font-medium" 
                 variant="gradient"
                 disabled={isSubmitting}
               >
