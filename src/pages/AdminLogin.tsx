@@ -9,9 +9,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield, Eye, EyeOff, Lock, User, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/lib/supabase';
+import { toast } from '@/hooks/use-toast';
 
 const AdminLogin = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -22,19 +25,78 @@ const AdminLogin = () => {
     setError('');
     setIsLoading(true);
 
-    // Simple authentication - in production, this would be more secure
-    if (credentials.username === 'admin' && credentials.password === 'admin123') {
-      localStorage.setItem('isAdmin', 'true');
-      navigate('/admin');
-    } else {
-      setError('Invalid username or password. Please try again.');
+    try {
+      // Authenticate with Supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password: password,
+      });
+
+      if (error) {
+        console.error('Login error:', error);
+        setError('Invalid email or password. Please try again.');
+        toast({ 
+          title: "Login Failed", 
+          description: "Invalid email or password. Please try again.", 
+          variant: "destructive" 
+        });
+        return;
+      }
+
+      if (data.user) {
+        // Check if user has admin role
+        const { data: profile, error: profileError } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('email', data.user.email)
+          .single();
+
+        if (profileError || !profile) {
+          // If no admin profile found, sign out and deny access
+          await supabase.auth.signOut();
+          setError('You don\'t have admin privileges.');
+          toast({ 
+            title: "Access Denied", 
+            description: "You don't have admin privileges.", 
+            variant: "destructive" 
+          });
+          return;
+        }
+
+        // Store admin session
+        localStorage.setItem("adminAuthed", "true");
+        localStorage.setItem("adminUser", JSON.stringify({
+          id: data.user.id,
+          email: data.user.email,
+          name: profile.name || data.user.email
+        }));
+
+        toast({ 
+          title: "Welcome", 
+          description: `Logged in as ${profile.name || data.user.email}` 
+        });
+        
+        navigate("/admin/dashboard", { replace: true });
+      }
+    } catch (error) {
+      console.error('Unexpected login error:', error);
+      setError('An unexpected error occurred. Please try again.');
+      toast({ 
+        title: "Login Error", 
+        description: "An unexpected error occurred. Please try again.", 
+        variant: "destructive" 
+      });
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setCredentials(prev => ({ ...prev, [field]: value }));
+    if (field === 'email') {
+      setEmail(value);
+    } else if (field === 'password') {
+      setPassword(value);
+    }
     if (error) setError(''); // Clear error when user starts typing
   };
 
@@ -93,28 +155,28 @@ const AdminLogin = () => {
 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Username Field */}
+                  {/* Email Field */}
                   <div className="space-y-2">
                     <Label 
-                      htmlFor="username" 
+                      htmlFor="email" 
                       className="text-sm font-medium text-foreground flex items-center gap-2"
                     >
                       <User className="h-4 w-4" />
-                      Username
+                      Email
                     </Label>
                     <Input
-                      id="username"
-                      type="text"
-                      placeholder="Enter your username"
-                      value={credentials.username}
-                      onChange={(e) => handleInputChange('username', e.target.value)}
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
                       className={cn(
                         "h-11 text-base transition-all duration-200",
                         "focus:ring-2 focus:ring-primary/20 focus:border-primary",
                         error && "border-destructive focus:border-destructive focus:ring-destructive/20"
                       )}
                       required
-                      autoComplete="username"
+                      autoComplete="email"
                       disabled={isLoading}
                     />
                   </div>
@@ -133,7 +195,7 @@ const AdminLogin = () => {
                         id="password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
-                        value={credentials.password}
+                        value={password}
                         onChange={(e) => handleInputChange('password', e.target.value)}
                         className={cn(
                           "h-11 text-base pr-12 transition-all duration-200",
@@ -166,7 +228,7 @@ const AdminLogin = () => {
                   <Button
                     type="submit"
                     className="w-full h-12 text-base font-medium btn-responsive"
-                    disabled={isLoading || !credentials.username || !credentials.password}
+                    disabled={isLoading || !email || !password}
                   >
                     {isLoading ? (
                       <div className="flex items-center gap-2">
@@ -182,31 +244,8 @@ const AdminLogin = () => {
                   </Button>
                 </form>
 
-                {/* Demo Credentials */}
-                <div className="pt-4 border-t border-border">
-                  <div className="text-center">
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Demo Credentials:
-                    </p>
-                    <div className="bg-muted/50 rounded-lg p-3 space-y-1 text-sm">
-                      <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Username:</span>
-                        <code className="bg-background px-2 py-1 rounded text-foreground font-mono">
-                          admin
-                        </code>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-muted-foreground">Password:</span>
-                        <code className="bg-background px-2 py-1 rounded text-foreground font-mono">
-                          admin123
-                        </code>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Security Notice */}
-                <div className="text-center pt-2">
+                <div className="text-center pt-4 border-t border-border">
                   <p className="text-xs text-muted-foreground">
                     This is a secure admin area. All activities are logged and monitored.
                   </p>

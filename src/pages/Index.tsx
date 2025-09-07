@@ -80,27 +80,6 @@ const Index = () => {
     }
   ];
 
-  const features = [
-    {
-      icon: Smartphone,
-      title: 'Mobile-First Design',
-      description: 'Optimized for all devices with touch-friendly interface',
-      color: 'text-blue-500'
-    },
-    {
-      icon: Zap,
-      title: 'Instant Booking',
-      description: 'Book your studio in seconds with real-time availability',
-      color: 'text-green-500'
-    },
-    {
-      icon: Shield,
-      title: 'Secure & Reliable',
-      description: 'Enterprise-grade security with 99.9% uptime guarantee',
-      color: 'text-purple-500'
-    }
-  ];
-
   const stats = [
     { label: 'Studios Available', value: '4', icon: MapPin },
     { label: 'Happy Customers', value: '500+', icon: Users },
@@ -199,51 +178,6 @@ const Index = () => {
           <div className="absolute inset-0 -z-10 overflow-hidden">
             <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="spacing-responsive-lg">
-          <div className="container-responsive">
-            <div className="text-center mb-12">
-              <h2 className="text-responsive-2xl font-bold text-foreground mb-4">
-                Why Choose Our Studios?
-              </h2>
-              <p className="text-responsive text-muted-foreground max-w-2xl mx-auto">
-                Experience the perfect blend of technology, comfort, and professional service
-              </p>
-            </div>
-
-            <div className="grid-responsive md:grid-cols-3 gap-8">
-              {features.map((feature, index) => {
-                const IconComponent = feature.icon;
-                const isActive = activeFeature === index;
-                
-                return (
-                  <div
-                    key={index}
-                    className={cn(
-                      "card-responsive text-center transition-all duration-500 transform hover:scale-105 cursor-pointer",
-                      isActive && "ring-2 ring-primary shadow-lg scale-105"
-                    )}
-                    onClick={() => setActiveFeature(index)}
-                  >
-                    <div className={cn(
-                      "w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center transition-colors",
-                      isActive ? "bg-primary text-primary-foreground" : "bg-muted"
-                    )}>
-                      <IconComponent className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-responsive-lg font-semibold text-foreground mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-responsive text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
           </div>
         </section>
 
