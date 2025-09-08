@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/lib/supabase";
 import { sendBookingStatusNotification, validateEmailConfig } from "@/lib/emailService";
-import { Trash2, Plus, LogOut, FileSpreadsheet } from "lucide-react";
+import { Trash2, Plus, LogOut, FileSpreadsheet, ChevronLeft, ChevronRight } from "lucide-react";
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
@@ -343,6 +343,14 @@ const AdminDashboard = () => {
                   // Mobile-friendly indicator dots
                   avail: "after:content-[''] after:w-1 after:h-1 sm:after:w-1.5 sm:after:h-1.5 after:bg-success after:rounded-full after:absolute after:bottom-0.5 sm:after:bottom-1 after:right-0.5 sm:after:right-1",
                   full: "after:content-[''] after:w-1 after:h-1 sm:after:w-1.5 sm:after:h-1.5 after:bg-destructive after:rounded-full after:absolute after:bottom-0.5 sm:after:bottom-1 after:right-0.5 sm:after:right-1",
+                }}
+                navButtonProps={{
+                  prev: {
+                    children: <ChevronLeft className="h-4 w-4" />,
+                  },
+                  next: {
+                    children: <ChevronRight className="h-4 w-4" />,
+                  },
                 }}
               />
               <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3 mt-4">

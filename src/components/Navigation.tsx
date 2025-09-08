@@ -90,11 +90,6 @@ const Navigation = () => {
     }, 100);
   };
 
-  const handleAdminLogin = () => {
-    navigate('/admin/login');
-    setIsMobileMenuOpen(false);
-  };
-
   const navigationLinks = [
     {
       label: 'Home',
@@ -108,12 +103,6 @@ const Navigation = () => {
       icon: Calendar,
       description: 'Schedule a studio session',
       primary: true
-    },
-    {
-      label: 'Admin Login',
-      action: handleAdminLogin,
-      icon: LogIn,
-      description: 'Access admin dashboard'
     },
     {
       label: 'Contact',
@@ -171,16 +160,6 @@ const Navigation = () => {
               >
                 <Calendar className="h-4 w-4 mr-2" />
                 Book Studio
-              </Button>
-              
-              <Button
-                onClick={handleAdminLogin}
-                variant="outline"
-                size="sm"
-                className="ml-2"
-              >
-                <User className="h-4 w-4 mr-2" />
-                Admin
               </Button>
             </div>
 
