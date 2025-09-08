@@ -141,29 +141,28 @@ const Index = () => {
                 </Button>
               </div>
 
-              {/* Stats */}
-              <div className="grid-responsive sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
-                {stats.map((stat, index) => {
-                  const IconComponent = stat.icon;
-                  return (
-                    <div 
-                      key={index}
-                      className={cn(
-                        "card-responsive text-center transition-all duration-500 transform hover:scale-105",
-                        isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-                      )}
-                      style={{ transitionDelay: `${index * 100}ms` }}
-                    >
-                      <IconComponent className="h-8 w-8 text-primary mx-auto mb-3" />
-                      <div className="text-responsive-2xl font-bold text-foreground mb-1">
-                        {stat.value}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {stat.label}
-                      </div>
-                    </div>
-                  );
-                })}
+              {/* Stats - Simplified */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div className="bg-card p-4 rounded-lg text-center">
+                  <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <div className="text-2xl font-bold">4</div>
+                  <div className="text-sm text-muted-foreground">Studios Available</div>
+                </div>
+                <div className="bg-card p-4 rounded-lg text-center">
+                  <Users className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <div className="text-2xl font-bold">500+</div>
+                  <div className="text-sm text-muted-foreground">Happy Customers</div>
+                </div>
+                <div className="bg-card p-4 rounded-lg text-center">
+                  <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <div className="text-2xl font-bold">150+</div>
+                  <div className="text-sm text-muted-foreground">Bookings This Month</div>
+                </div>
+                <div className="bg-card p-4 rounded-lg text-center">
+                  <Star className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <div className="text-2xl font-bold">4.8</div>
+                  <div className="text-sm text-muted-foreground">Average Rating</div>
+                </div>
               </div>
             </div>
           </div>
