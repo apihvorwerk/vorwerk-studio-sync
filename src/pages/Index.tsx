@@ -80,12 +80,6 @@ const Index = () => {
     }
   ];
 
-  const stats = [
-    { label: 'Studios Available', value: '4', icon: MapPin },
-    { label: 'Happy Customers', value: '500+', icon: Users },
-    { label: 'Bookings This Month', value: '150+', icon: Calendar },
-    { label: 'Average Rating', value: '4.8', icon: Star }
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
