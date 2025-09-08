@@ -65,21 +65,21 @@ const studios = [
   { 
     id: "studio-1", 
     name: "Studio 1", 
-    sessions: ["11:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"],
+    sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"],
     capacity: 12,
     features: ["Professional Lighting", "Video Equipment", "Sound System"]
   },
   { 
     id: "studio-2", 
     name: "Studio 2", 
-    sessions: ["11:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"],
+    sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"],
     capacity: 8,
     features: ["Intimate Setting", "Whiteboard", "Presentation Screen"]
   },
   { 
     id: "studio-3", 
     name: "Studio 3", 
-    sessions: ["11:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"],
+    sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"],
     capacity: 15,
     features: ["Flexible Layout", "Moveable Furniture", "Natural Light"]
   },
