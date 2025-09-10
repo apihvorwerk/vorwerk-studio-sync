@@ -92,12 +92,6 @@ const Navigation = () => {
 
   const navigationLinks = [
     {
-      label: 'Home',
-      path: '/',
-      icon: Home,
-      description: 'Back to homepage'
-    },
-    {
       label: 'Book Studio',
       action: handleBookStudio,
       icon: Calendar,
@@ -129,29 +123,21 @@ const Navigation = () => {
             <Link 
               to="/" 
               className="logo flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
-              aria-label="Vorwerk Studio Sync - Home"
+              aria-label="Vorwerk Malaysia - Home"
             >
-              <Calendar className="h-6 w-6 sm:h-8 sm:w-8" />
+              <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+              alt="Vorwerk Logo" 
+              className="h-6 w-6 sm:h-8 sm:w-8 border border-gray-300 rounded p-1" 
+            />
               <span className="font-bold text-responsive-lg">
-                <span className="hidden sm:inline">Vorwerk Studio</span>
-                <span className="sm:hidden">Studio</span>
+                <span className="hidden sm:inline">Vorwerk Malaysia</span>
+                <span className="sm:hidden">Malaysia</span>
               </span>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="desktop-nav hidden md:flex items-center space-x-1">
-              <Link
-                to="/"
-                className={cn(
-                  "nav-link px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  isActive('/') 
-                    ? "bg-primary text-primary-foreground" 
-                    : "text-foreground hover:bg-accent hover:text-accent-foreground"
-                )}
-              >
-                Home
-              </Link>
-              
               <Button
                 onClick={handleBookStudio}
                 variant="default"
@@ -272,8 +258,12 @@ const Navigation = () => {
         <div className="mt-auto pt-6 border-t border-border">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              <span className="font-semibold text-sm">Vorwerk Studio Sync</span>
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+                alt="Vorwerk Logo" 
+                className="h-5 w-5 border border-gray-300 rounded p-0.5" 
+              />
+              <span className="font-semibold text-sm">Vorwerk Malaysia</span>
             </div>
             <p className="text-xs text-muted-foreground">
               Professional studio booking system

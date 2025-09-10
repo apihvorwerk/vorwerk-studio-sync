@@ -28,7 +28,7 @@ export const sendNewBookingNotification = async (bookingData: BookingData): Prom
     const templateParams = {
       to_email: ADMIN_EMAIL,
       to_name: 'Admin',
-      from_name: 'Vorwerk Studio Booking System',
+      from_name: 'Vorwerk Malaysia',
       team_leader_name: bookingData.team_leader_name,
       team_leader_id: bookingData.team_leader_id,
       user_email: bookingData.email,
@@ -77,7 +77,7 @@ export const sendBookingStatusNotification = async (
     const templateParams = {
       to_email: bookingData.email,
       to_name: bookingData.team_leader_name,
-      from_name: 'Vorwerk Studio Booking System',
+      from_name: 'Vorwerk Malaysia',
       team_leader_name: bookingData.team_leader_name,
       team_leader_id: bookingData.team_leader_id,
       studio: bookingData.studio,

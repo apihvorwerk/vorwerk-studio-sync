@@ -1,4 +1,4 @@
-# Welcome to Vorwerk Studio Booking System
+# Welcome to Vorwerk Malaysia Booking System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -15,7 +15,7 @@
 - [License](#-license)
 
 ## 🚀 About
-Vorwerk Studio Booking System is a modern web application for managing projects and tasks. It provides an intuitive interface for both administrators and end-users to schedule, manage and track project progress.
+Vorwerk Malaysia Booking System is a modern web application for managing projects and tasks. It provides an intuitive interface for both administrators and end-users to schedule, manage and track project progress.
 
 Built with Vite, TypeScript, React, shadcn-ui, and Tailwind CSS, Lovable Project offers a responsive design that works seamlessly across desktop and mobile devices.
 

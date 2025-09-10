@@ -324,14 +324,18 @@ const Index = () => {
         <div className="container-responsive">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <Calendar className="h-6 w-6 text-primary" />
-              <span className="font-bold text-responsive-lg">Vorwerk Studio Sync</span>
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+                alt="Vorwerk Logo" 
+                className="h-6 w-6 border border-gray-300 rounded p-1" 
+              />
+              <span className="font-bold text-responsive-lg">Vorwerk Malaysia</span>
             </div>
             <p className="text-responsive text-muted-foreground mb-4">
               Professional studio booking system for modern businesses
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
-              <span> 2024 Vorwerk Studio Sync</span>
+              <span> 2024 Vorwerk Malaysia</span>
               <span className="hidden sm:inline">•</span>
               <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
               <span className="hidden sm:inline">•</span>
