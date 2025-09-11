@@ -125,13 +125,13 @@ const Navigation = () => {
               className="logo flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg transition-all duration-200 hover:scale-105"
               aria-label="Vorwerk Malaysia - Home"
             >
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl blur-sm"></div>
                 <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-xl shadow-lg">
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
                     alt="Vorwerk Logo" 
-                    className="h-5 w-5 sm:h-6 sm:w-6 filter brightness-0 invert" 
+                    className="w-5 h-5 sm:w-6 sm:h-6 object-contain filter brightness-0 invert" 
                   />
                 </div>
               </div>
@@ -269,13 +269,13 @@ const Navigation = () => {
         <div className="mt-auto pt-6 border-t border-border">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-2">
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg blur-sm"></div>
                 <div className="relative bg-gradient-to-br from-primary to-primary/80 p-1.5 rounded-lg shadow-md">
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
                     alt="Vorwerk Logo" 
-                    className="h-4 w-4 filter brightness-0 invert" 
+                    className="w-4 h-4 object-contain filter brightness-0 invert" 
                   />
                 </div>
               </div>

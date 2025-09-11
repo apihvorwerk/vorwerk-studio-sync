@@ -87,8 +87,28 @@ const Index = () => {
       
       {/* Main Content */}
       <main id="main-content" className="relative">
+        {/* Thermomix Logo Section */}
+        <section className="py-6 sm:py-8 bg-gradient-to-b from-background to-muted/20">
+          <div className="container-responsive">
+            <div className="flex justify-center">
+              <div className="text-center">
+                <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-green-500 mb-2">
+                  thermomix
+                </div>
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-8 h-4 bg-green-500 rounded-full"></div>
+                  <div className="text-lg sm:text-xl font-bold text-green-500 tracking-wider">
+                    VORWERK
+                  </div>
+                  <div className="w-8 h-4 bg-green-500 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-20 lg:py-32">
+        <section className="relative overflow-hidden py-16 lg:py-24">
           <div className="container-responsive">
             <div className={cn(
               "text-center transition-all duration-1000 transform",
@@ -301,13 +321,13 @@ const Index = () => {
         <div className="container-responsive">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="relative">
+              <div className="relative flex-shrink-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg blur-sm"></div>
                 <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-lg shadow-md">
                   <img 
                     src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
                     alt="Vorwerk Logo" 
-                    className="h-5 w-5 filter brightness-0 invert" 
+                    className="w-5 h-5 object-contain filter brightness-0 invert" 
                   />
                 </div>
               </div>
