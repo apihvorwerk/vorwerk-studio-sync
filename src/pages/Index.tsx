@@ -92,7 +92,7 @@ const Index = () => {
           <div className="container-responsive">
             <div className="flex justify-center">
               <img 
-                src="/src/Assets/Vorwerk_TM_M_green_RGB.svg" 
+                src="/Vorwerk_TM_M_green_RGB.svg" 
                 alt="Vorwerk Logo" 
                 className="w-48 sm:w-64 md:w-80 h-auto" 
               />
@@ -318,7 +318,7 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg blur-sm"></div>
                 <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-lg shadow-md">
                   <img 
-                    src="/src/Assets/Vorwerk_TM_M_green_RGB.svg" 
+                    src="/Vorwerk_TM_M_green_RGB.svg" 
                     alt="Vorwerk Logo" 
                     className="w-5 h-5 object-contain filter brightness-0 invert" 
                   />
