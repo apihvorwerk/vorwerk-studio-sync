@@ -43,7 +43,7 @@ const Index = () => {
       description: 'Interactive product demonstrations and customer experiences',
       capacity: '20 people',
       duration: '11:00 AM - 7:00 PM',
-      features: ['Demo Kitchen', 'Product Display', 'Customer Lounge'],
+      features: ['Demo Kitchen', '5 Thermomix 7', 'Customer Lounge'],
       rating: 4.9,
       image: '/api/placeholder/400/250',
       popular: true
@@ -52,9 +52,9 @@ const Index = () => {
       id: 'studio-1',
       name: 'Studio 1 - Level 1',
       description: 'Professional recording and content creation space',
-      capacity: '8 people',
+      capacity: '25 people',
       duration: '2 sessions available',
-      features: ['4K Recording', 'Professional Lighting', 'Sound Booth'],
+      features: ['60 Pax Max', 'Professional Lighting', 'Sound Booth'],
       rating: 4.8,
       image: '/api/placeholder/400/250'
     },
@@ -62,7 +62,7 @@ const Index = () => {
       id: 'studio-2',
       name: 'Studio 2 - Level 1',
       description: 'Versatile meeting and presentation room',
-      capacity: '12 people',
+      capacity: '8 people',
       duration: '2 sessions available',
       features: ['Video Conferencing', '75" Display', 'Whiteboard'],
       rating: 4.7,
@@ -72,9 +72,9 @@ const Index = () => {
       id: 'studio-3',
       name: 'Studio 3 - Level 1',
       description: 'Creative workshop and collaboration space',
-      capacity: '15 people',
+      capacity: '8 people',
       duration: '2 sessions available',
-      features: ['Flexible Layout', 'Creative Tools', 'Breakout Areas'],
+      features: ['Non-Halal', 'Creative Tools', 'Breakout Areas'],
       rating: 4.8,
       image: '/api/placeholder/400/250'
     }
@@ -91,18 +91,37 @@ const Index = () => {
         <section className="py-6 sm:py-8 bg-gradient-to-b from-background to-muted/20">
           <div className="container-responsive">
             <div className="flex justify-center">
-              <div className="text-center">
-                <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-green-500 mb-2">
-                  thermomix
-                </div>
-                <div className="flex items-center justify-center space-x-2">
-                  <div className="w-8 h-4 bg-green-500 rounded-full"></div>
-                  <div className="text-lg sm:text-xl font-bold text-green-500 tracking-wider">
-                    VORWERK
-                  </div>
-                  <div className="w-8 h-4 bg-green-500 rounded-full"></div>
-                </div>
-              </div>
+              <svg className="w-48 sm:w-64 md:w-80 h-auto" viewBox="0 0 704 228" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#00B04F">
+                  <path d="M0 0h50.4v21.6H19.2V48h25.6v21.6H19.2V104H0V0z"/>
+                  <path d="M70.4 104H51.2V21.6h19.2V104z"/>
+                  <path d="M96 104H76.8V0H96v104z"/>
+                  <path d="M121.6 104h-19.2V21.6h19.2V48h19.2V21.6H160V104h-19.2V69.6h-19.2V104z"/>
+                  <path d="M185.6 104h-19.2V21.6h38.4v21.6h-19.2V48H201.6v21.6h-16V82.4h19.2V104h-38.4 19.2z"/>
+                  <path d="M230.4 104H211.2V21.6h19.2V48h12.8V21.6h19.2V104h-19.2V69.6h-12.8V104z"/>
+                  <path d="M288 104h-19.2V21.6H288V48h19.2V21.6h19.2V104h-19.2V69.6H288V104z"/>
+                  <path d="M352 104h-19.2V21.6H352V48h19.2V21.6h19.2V104h-19.2V69.6H352V104z"/>
+                  <path d="M416 104h-19.2V21.6h38.4v21.6H416V48h16v21.6h-16V82.4h19.2V104h-38.4H416z"/>
+                  <path d="M460.8 104h-19.2V21.6h19.2V48h19.2V21.6h19.2V104H480V69.6h-19.2V104z"/>
+                  <path d="M524.8 104h-19.2V21.6h19.2V48H544V21.6h19.2V104H544V69.6h-19.2V104z"/>
+                  <path d="M588.8 104h-19.2V21.6h19.2V48H608V21.6h19.2V104H608V69.6h-19.2V104z"/>
+                  <path d="M652.8 104h-19.2V21.6h19.2V48H672V21.6h19.2V104H672V69.6h-19.2V104z"/>
+                  <path d="M704 21.6h-19.2V0H704v21.6z"/>
+                  <path d="M704 104h-19.2V82.4H704V104z"/>
+                </g>
+                <g fill="#00B04F">
+                  <path d="M246.4 200v-50.4h32c7.467 0 13.333 1.867 17.6 5.6s6.4 9.2 6.4 15.6-2.133 11.733-6.4 15.467c-4.267 3.733-10.133 5.6-17.6 5.6h-12.8V200h-19.2zm19.2-25.6h11.2c2.133 0 3.733-.533 4.8-1.6s1.6-2.533 1.6-4.4-.533-3.333-1.6-4.4-2.667-1.6-4.8-1.6h-11.2v11.2z"/>
+                  <path d="M324.8 200v-50.4H344V200h-19.2z"/>
+                  <path d="M371.2 200v-50.4h19.2V187.2H408V200h-36.8z"/>
+                  <path d="M433.6 200v-50.4h19.2V187.2h17.6V200h-36.8z"/>
+                  <path d="M496 200v-50.4h19.2V187.2h17.6V200H496z"/>
+                  <path d="M558.4 200v-50.4h19.2V187.2h17.6V200h-36.8z"/>
+                  <path d="M620.8 200v-50.4H640V187.2h17.6V200h-36.8z"/>
+                  <path d="M683.2 200v-50.4h19.2V187.2H720V200h-36.8z"/>
+                </g>
+                <ellipse cx="124" cy="175" rx="60" ry="25" fill="#00B04F"/>
+                <ellipse cx="580" cy="175" rx="60" ry="25" fill="#00B04F"/>
+              </svg>
             </div>
           </div>
         </section>
