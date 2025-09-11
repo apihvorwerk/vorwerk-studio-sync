@@ -87,41 +87,15 @@ const Index = () => {
       
       {/* Main Content */}
       <main id="main-content" className="relative">
-        {/* Thermomix Logo Section */}
+        {/* Vorwerk Logo Section */}
         <section className="py-6 sm:py-8 bg-gradient-to-b from-background to-muted/20">
           <div className="container-responsive">
             <div className="flex justify-center">
-              <svg className="w-48 sm:w-64 md:w-80 h-auto" viewBox="0 0 704 228" xmlns="http://www.w3.org/2000/svg">
-                <g fill="#00B04F">
-                  <path d="M0 0h50.4v21.6H19.2V48h25.6v21.6H19.2V104H0V0z"/>
-                  <path d="M70.4 104H51.2V21.6h19.2V104z"/>
-                  <path d="M96 104H76.8V0H96v104z"/>
-                  <path d="M121.6 104h-19.2V21.6h19.2V48h19.2V21.6H160V104h-19.2V69.6h-19.2V104z"/>
-                  <path d="M185.6 104h-19.2V21.6h38.4v21.6h-19.2V48H201.6v21.6h-16V82.4h19.2V104h-38.4 19.2z"/>
-                  <path d="M230.4 104H211.2V21.6h19.2V48h12.8V21.6h19.2V104h-19.2V69.6h-12.8V104z"/>
-                  <path d="M288 104h-19.2V21.6H288V48h19.2V21.6h19.2V104h-19.2V69.6H288V104z"/>
-                  <path d="M352 104h-19.2V21.6H352V48h19.2V21.6h19.2V104h-19.2V69.6H352V104z"/>
-                  <path d="M416 104h-19.2V21.6h38.4v21.6H416V48h16v21.6h-16V82.4h19.2V104h-38.4H416z"/>
-                  <path d="M460.8 104h-19.2V21.6h19.2V48h19.2V21.6h19.2V104H480V69.6h-19.2V104z"/>
-                  <path d="M524.8 104h-19.2V21.6h19.2V48H544V21.6h19.2V104H544V69.6h-19.2V104z"/>
-                  <path d="M588.8 104h-19.2V21.6h19.2V48H608V21.6h19.2V104H608V69.6h-19.2V104z"/>
-                  <path d="M652.8 104h-19.2V21.6h19.2V48H672V21.6h19.2V104H672V69.6h-19.2V104z"/>
-                  <path d="M704 21.6h-19.2V0H704v21.6z"/>
-                  <path d="M704 104h-19.2V82.4H704V104z"/>
-                </g>
-                <g fill="#00B04F">
-                  <path d="M246.4 200v-50.4h32c7.467 0 13.333 1.867 17.6 5.6s6.4 9.2 6.4 15.6-2.133 11.733-6.4 15.467c-4.267 3.733-10.133 5.6-17.6 5.6h-12.8V200h-19.2zm19.2-25.6h11.2c2.133 0 3.733-.533 4.8-1.6s1.6-2.533 1.6-4.4-.533-3.333-1.6-4.4-2.667-1.6-4.8-1.6h-11.2v11.2z"/>
-                  <path d="M324.8 200v-50.4H344V200h-19.2z"/>
-                  <path d="M371.2 200v-50.4h19.2V187.2H408V200h-36.8z"/>
-                  <path d="M433.6 200v-50.4h19.2V187.2h17.6V200h-36.8z"/>
-                  <path d="M496 200v-50.4h19.2V187.2h17.6V200H496z"/>
-                  <path d="M558.4 200v-50.4h19.2V187.2h17.6V200h-36.8z"/>
-                  <path d="M620.8 200v-50.4H640V187.2h17.6V200h-36.8z"/>
-                  <path d="M683.2 200v-50.4h19.2V187.2H720V200h-36.8z"/>
-                </g>
-                <ellipse cx="124" cy="175" rx="60" ry="25" fill="#00B04F"/>
-                <ellipse cx="580" cy="175" rx="60" ry="25" fill="#00B04F"/>
-              </svg>
+              <img 
+                src="/src/Assets/Vorwerk_TM_M_green_RGB.svg" 
+                alt="Vorwerk Logo" 
+                className="w-48 sm:w-64 md:w-80 h-auto" 
+              />
             </div>
           </div>
         </section>
@@ -344,7 +318,7 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg blur-sm"></div>
                 <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-lg shadow-md">
                   <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+                    src="/src/Assets/Vorwerk_TM_M_green_RGB.svg" 
                     alt="Vorwerk Logo" 
                     className="w-5 h-5 object-contain filter brightness-0 invert" 
                   />
