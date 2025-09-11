@@ -182,7 +182,7 @@ const BookingForm = () => {
                 id="teamLeaderId"
                 value={formData.teamLeaderId}
                 onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderId: e.target.value }))}
-                placeholder="e.g., TL123456"
+                placeholder="e.g., 123456"
                 className="transition-colors focus:ring-primary h-11 text-base"
               />
             </div>
@@ -196,7 +196,7 @@ const BookingForm = () => {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                placeholder="name@vorwerk.com"
+                placeholder="name@gmail.com"
                 className="transition-colors focus:ring-primary h-11 text-base"
               />
             </div>
@@ -207,7 +207,7 @@ const BookingForm = () => {
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                placeholder="+49 123 456 7890"
+                placeholder="+60 123 456 7890"
                 className="transition-colors focus:ring-primary h-11 text-base"
               />
             </div>
