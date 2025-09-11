@@ -122,18 +122,29 @@ const Navigation = () => {
             {/* Logo */}
             <Link 
               to="/" 
-              className="logo flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
+              className="logo flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg transition-all duration-200 hover:scale-105"
               aria-label="Vorwerk Malaysia - Home"
             >
-              <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
-              alt="Vorwerk Logo" 
-              className="h-6 w-6 sm:h-8 sm:w-8 border border-gray-300 rounded p-1" 
-            />
-              <span className="font-bold text-responsive-lg">
-                <span className="hidden sm:inline">Vorwerk Malaysia</span>
-                <span className="sm:hidden">Malaysia</span>
-              </span>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl blur-sm"></div>
+                <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-xl shadow-lg">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+                    alt="Vorwerk Logo" 
+                    className="h-5 w-5 sm:h-6 sm:w-6 filter brightness-0 invert" 
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg sm:text-xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                  <span className="hidden sm:inline">Vorwerk</span>
+                  <span className="sm:hidden">Vorwerk</span>
+                </span>
+                <span className="text-xs sm:text-sm text-muted-foreground font-medium -mt-1">
+                  <span className="hidden sm:inline">Malaysia Studios</span>
+                  <span className="sm:hidden">Studios</span>
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
@@ -257,13 +268,21 @@ const Navigation = () => {
         {/* Mobile Nav Footer */}
         <div className="mt-auto pt-6 border-t border-border">
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
-                alt="Vorwerk Logo" 
-                className="h-5 w-5 border border-gray-300 rounded p-0.5" 
-              />
-              <span className="font-semibold text-sm">Vorwerk Malaysia</span>
+            <div className="flex items-center justify-center space-x-3 mb-2">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg blur-sm"></div>
+                <div className="relative bg-gradient-to-br from-primary to-primary/80 p-1.5 rounded-lg shadow-md">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+                    alt="Vorwerk Logo" 
+                    className="h-4 w-4 filter brightness-0 invert" 
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="font-semibold text-sm">Vorwerk Malaysia</span>
+                <span className="text-xs text-muted-foreground -mt-0.5">Studios</span>
+              </div>
             </div>
             <p className="text-xs text-muted-foreground">
               Professional studio booking system

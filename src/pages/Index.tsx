@@ -39,7 +39,7 @@ const Index = () => {
   const studios = [
     {
       id: 'experience-store',
-      name: 'Experience Store',
+      name: 'Thermomix Experience Store - Level G',
       description: 'Interactive product demonstrations and customer experiences',
       capacity: '20 people',
       duration: '11:00 AM - 7:00 PM',
@@ -50,7 +50,7 @@ const Index = () => {
     },
     {
       id: 'studio-1',
-      name: 'Studio 1',
+      name: 'Studio 1 - Level 1',
       description: 'Professional recording and content creation space',
       capacity: '8 people',
       duration: '2 sessions available',
@@ -60,7 +60,7 @@ const Index = () => {
     },
     {
       id: 'studio-2',
-      name: 'Studio 2',
+      name: 'Studio 2 - Level 1',
       description: 'Versatile meeting and presentation room',
       capacity: '12 people',
       duration: '2 sessions available',
@@ -70,7 +70,7 @@ const Index = () => {
     },
     {
       id: 'studio-3',
-      name: 'Studio 3',
+      name: 'Studio 3 - Level 1',
       description: 'Creative workshop and collaboration space',
       capacity: '15 people',
       duration: '2 sessions available',
@@ -88,8 +88,8 @@ const Index = () => {
       {/* Main Content */}
       <main id="main-content" className="relative">
         {/* Hero Section */}
-        <section className="relative overflow-hidden">
-          <div className="container-responsive spacing-responsive-lg">
+        <section className="relative overflow-hidden py-20 lg:py-32">
+          <div className="container-responsive">
             <div className={cn(
               "text-center transition-all duration-1000 transform",
               isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
@@ -141,29 +141,6 @@ const Index = () => {
                 </Button>
               </div>
 
-              {/* Stats - Simplified */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <div className="bg-card p-4 rounded-lg text-center">
-                  <MapPin className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold">4</div>
-                  <div className="text-sm text-muted-foreground">Studios Available</div>
-                </div>
-                <div className="bg-card p-4 rounded-lg text-center">
-                  <Users className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold">500+</div>
-                  <div className="text-sm text-muted-foreground">Happy Customers</div>
-                </div>
-                <div className="bg-card p-4 rounded-lg text-center">
-                  <Calendar className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold">150+</div>
-                  <div className="text-sm text-muted-foreground">Bookings This Month</div>
-                </div>
-                <div className="bg-card p-4 rounded-lg text-center">
-                  <Star className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <div className="text-2xl font-bold">4.8</div>
-                  <div className="text-sm text-muted-foreground">Average Rating</div>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -323,13 +300,21 @@ const Index = () => {
       <footer className="bg-card border-t border-border spacing-responsive">
         <div className="container-responsive">
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
-                alt="Vorwerk Logo" 
-                className="h-6 w-6 border border-gray-300 rounded p-1" 
-              />
-              <span className="font-bold text-responsive-lg">Vorwerk Malaysia</span>
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/10 rounded-lg blur-sm"></div>
+                <div className="relative bg-gradient-to-br from-primary to-primary/80 p-2 rounded-lg shadow-md">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Vorwerk.svg" 
+                    alt="Vorwerk Logo" 
+                    className="h-5 w-5 filter brightness-0 invert" 
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="font-bold text-responsive-lg">Vorwerk Malaysia</span>
+                <span className="text-sm text-muted-foreground -mt-1">Studios</span>
+              </div>
             </div>
             <p className="text-responsive text-muted-foreground mb-4">
               Professional studio booking system for modern businesses

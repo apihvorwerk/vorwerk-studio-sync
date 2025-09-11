@@ -28,10 +28,10 @@ interface BookingFormData {
 type BookingStatus = "pending" | "approved" | "rejected";
 
 const studios = [
-  { id: "experience-store", name: "Experience Store", sessions: ["11:00 AM - 7:00 PM"] },
-  { id: "studio-1", name: "Studio 1", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
-  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
-  { id: "studio-3", name: "Studio 3", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
+  { id: "experience-store", name: "Thermomix Experience Store - Level G", sessions: ["11:00 AM - 7:00 PM"] },
+  { id: "studio-1", name: "Studio 1 - Level 1", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
+  { id: "studio-2", name: "Studio 2 - Level 1", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
+  { id: "studio-3", name: "Studio 3 - Level 1", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
 ];
 
 const saveBooking = async (booking: any) => {
@@ -64,7 +64,7 @@ const BookingForm = () => {
 
   const selectedStudio = studios.find(s => s.id === formData.studio);
   const minDate = new Date();
-  minDate.setDate(minDate.getDate() + 14); // 14 days in advance
+  minDate.setDate(minDate.getDate() + 7); // 7 days in advance
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,7 +161,7 @@ const BookingForm = () => {
     <Card className="w-full max-w-2xl mx-auto shadow-medium">
       <CardHeader className="text-center bg-gradient-subtle rounded-t-lg px-4 py-6 sm:px-6">
         <CardTitle className="text-xl sm:text-2xl text-foreground">Studio Booking Request</CardTitle>
-        <p className="text-sm sm:text-base text-muted-foreground mt-2">Book your studio session at least 14 days in advance</p>
+        <p className="text-sm sm:text-base text-muted-foreground mt-2">Book your studio session at least 7 days in advance</p>
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
@@ -282,7 +282,7 @@ const BookingForm = () => {
               </PopoverContent>
             </Popover>
             <p className="text-xs sm:text-sm text-muted-foreground">
-              Bookings must be made at least 14 days in advance
+              Bookings must be made at least 7 days in advance
             </p>
           </div>
 
