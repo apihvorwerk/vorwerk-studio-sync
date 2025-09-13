@@ -45,7 +45,7 @@ const Index = () => {
       duration: '11:00 AM - 7:00 PM',
       features: ['Demo Kitchen', '5 Thermomix 7', 'Customer Lounge'],
       rating: 4.9,
-      image: '/api/placeholder/400/250',
+      image: '/image.jpg',
       popular: true
     },
     {
@@ -192,12 +192,20 @@ const Index = () => {
                   )}
                   
                   <div className="aspect-video bg-gradient-to-br from-muted to-muted/50 relative overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <Monitor className="h-16 w-16 text-muted-foreground mx-auto mb-2" />
-                        <p className="text-sm text-muted-foreground">{studio.name}</p>
+                    {studio.image && studio.image !== '/api/placeholder/400/250' ? (
+                      <img 
+                        src={studio.image} 
+                        alt={studio.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <Monitor className="h-16 w-16 text-muted-foreground mx-auto mb-2" />
+                          <p className="text-sm text-muted-foreground">{studio.name}</p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   <CardHeader className="pb-4">
