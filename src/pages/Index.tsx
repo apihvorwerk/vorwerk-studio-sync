@@ -56,7 +56,7 @@ const Index = () => {
       duration: '2 sessions available',
       features: ['60 Pax Max', 'Professional Lighting', 'Sound Booth'],
       rating: 4.8,
-      image: '/api/placeholder/400/250'
+      image: '/Studio 1.jpg'
     },
     {
       id: 'studio-2',
@@ -66,7 +66,7 @@ const Index = () => {
       duration: '2 sessions available',
       features: ['Video Conferencing', '75" Display', 'Whiteboard'],
       rating: 4.7,
-      image: '/api/placeholder/400/250'
+      image: '/Studio 2 and 3.jpg'
     },
     {
       id: 'studio-3',
@@ -76,7 +76,7 @@ const Index = () => {
       duration: '2 sessions available',
       features: ['Non-Halal', 'Creative Tools', 'Breakout Areas'],
       rating: 4.8,
-      image: '/api/placeholder/400/250'
+      image: '/Studio 2 and 3.jpg'
     }
   ];
 
