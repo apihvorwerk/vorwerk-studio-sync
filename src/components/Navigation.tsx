@@ -292,18 +292,18 @@ const Navigation = () => {
           {/* Quick Contact */}
           <div className="mt-4 space-y-2">
             <a
-              href="mailto:support@vorwerk-studio.com"
+              href="mailto:malaysia@customercare.vorwerk.com"
               className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Mail className="h-4 w-4" />
-              <span>support@vorwerk-studio.com</span>
+              <span>malaysia@customercare.vorwerk.com</span>
             </a>
             <a
               href="tel:+49-123-456-7890"
               className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Phone className="h-4 w-4" />
-              <span>+49 123 456 7890</span>
+              <span>+60 123 596 418</span>
             </a>
           </div>
         </div>

@@ -41,42 +41,38 @@ const Index = () => {
     {
       id: 'experience-store',
       name: 'Thermomix Experience Store - Level G',
-      description: 'Interactive product demonstrations and customer experiences',
+      description: 'Interactive Thermomix TM7 demonstrations and hands-on cooking experiences',
       capacity: '20 people',
       duration: '11:00 AM - 7:00 PM',
       features: ['Demo Kitchen', '5 Thermomix 7', 'Customer Lounge'],
-      rating: 4.9,
       image: '/image.jpg',
       popular: true
     },
     {
       id: 'studio-1',
       name: 'Studio 1 - Level 1',
-      description: 'Professional recording and content creation space',
+      description: 'Professional cooking and culinary creation experience',
       capacity: '25 people',
       duration: '2 sessions available',
       features: ['60 Pax Max', 'Professional Lighting', 'Sound Booth'],
-      rating: 4.8,
       image: '/Studio 1.jpg'
     },
     {
       id: 'studio-2',
       name: 'Studio 2 - Level 1',
-      description: 'Versatile meeting and presentation room',
+      description: 'Versatile cooking and live demonstration experience',
       capacity: '8 people',
       duration: '2 sessions available',
       features: ['Video Conferencing', '75" Display', 'Whiteboard'],
-      rating: 4.7,
       image: '/Studio 2 and 3.jpg'
     },
     {
       id: 'studio-3',
       name: 'Studio 3 - Level 1',
-      description: 'Creative workshop and collaboration space',
+      description: 'Creative cooking workshops and collaborative culinary experiences',
       capacity: '8 people',
       duration: '2 sessions available',
       features: ['Non-Halal', 'Creative Tools', 'Breakout Areas'],
-      rating: 4.8,
       image: '/Studio 2 and 3.jpg'
     }
   ];
@@ -124,8 +120,7 @@ const Index = () => {
 
               {/* Hero Description */}
               <p className="text-responsive-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Experience world-class studio facilities with cutting-edge technology. 
-                Perfect for recordings, meetings, presentations, and creative collaborations.
+              Experience the world-class Thermomix® TM7 with cutting-edge technology. Perfect for cooking, meal preparation, demonstrations and creative culinary explorations.
               </p>
 
               {/* Hero CTA */}
@@ -357,7 +352,7 @@ const Index = () => {
               </div>
             </div>
             <p className="text-responsive text-muted-foreground mb-4">
-              Professional studio booking system for modern businesses
+              Professional studio booking system
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground">
               <span> 2024 Vorwerk Malaysia</span>
