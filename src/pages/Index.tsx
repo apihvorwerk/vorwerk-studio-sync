@@ -54,7 +54,7 @@ const Index = () => {
       description: 'Professional cooking and culinary creation experience',
       capacity: '25 people',
       duration: '2 sessions available',
-      features: ['60 Pax Max', 'Professional Lighting', 'Sound Booth'],
+      features: ['60 Pax Max', 'Screen Display', 'Big Place'],
       image: '/Studio 1.jpg'
     },
     {
@@ -63,7 +63,7 @@ const Index = () => {
       description: 'Versatile cooking and live demonstration experience',
       capacity: '8 people',
       duration: '2 sessions available',
-      features: ['Video Conferencing', '75" Display', 'Whiteboard'],
+      features: ['Video Conferencing', 'Neat Place', 'Chill Cooking'],
       image: '/Studio 2 and 3.jpg'
     },
     {
@@ -72,7 +72,7 @@ const Index = () => {
       description: 'Creative cooking workshops and collaborative culinary experiences',
       capacity: '8 people',
       duration: '2 sessions available',
-      features: ['Non-Halal', 'Creative Tools', 'Breakout Areas'],
+      features: ['Non-Halal', 'Best Place', 'Best Cooking'],
       image: '/Studio 2 and 3.jpg'
     }
   ];
@@ -112,9 +112,9 @@ const Index = () => {
 
               {/* Hero Title */}
               <h1 className="text-responsive-3xl font-bold text-foreground mb-6 max-w-4xl mx-auto leading-tight">
-                Book Your Perfect
+              Thermomix® TM7
                 <span className="text-primary block sm:inline sm:ml-3">
-                  Studio Space
+                  @ Bangsar Store
                 </span>
               </h1>
 
@@ -217,7 +217,7 @@ const Index = () => {
                       <div className="flex items-center space-x-1 bg-yellow-50 px-2 py-1 rounded-full">
                         <Star className="h-4 w-4 text-yellow-500 fill-current" />
                         <span className="text-sm font-medium text-yellow-700">
-                          {studio.rating}
+                        
                         </span>
                       </div>
                     </div>
