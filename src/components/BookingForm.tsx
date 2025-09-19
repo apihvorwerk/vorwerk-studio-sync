@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { sendNewBookingNotification, validateEmailConfig } from "@/lib/emailService";
+import BookingSuccessPopup from "@/components/BookingSuccessPopup";
 
 interface BookingFormData {
   teamLeaderName: string;
@@ -61,6 +62,7 @@ const BookingForm = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const selectedStudio = studios.find(s => s.id === formData.studio);
   const minDate = new Date();
@@ -128,11 +130,8 @@ const BookingForm = () => {
         console.warn('Email configuration not set up. Skipping email notification.');
       }
       
-      toast({
-        title: "Booking Submitted",
-        description: "Your booking request has been submitted for approval. Admin will be notified via email.",
-        variant: "default",
-      });
+      // Show success popup instead of toast
+      setShowSuccessPopup(true);
 
       // Reset form
       setFormData({
@@ -158,13 +157,14 @@ const BookingForm = () => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-medium">
-      <CardHeader className="text-center bg-gradient-subtle rounded-t-lg px-4 py-6 sm:px-6">
-        <CardTitle className="text-xl sm:text-2xl text-foreground">Studio Booking Request</CardTitle>
-        <p className="text-sm sm:text-base text-muted-foreground mt-2">Book your studio session at least 7 days in advance</p>
-      </CardHeader>
-      <CardContent className="p-4 sm:p-6">
-        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+    <>
+      <Card className="w-full max-w-2xl mx-auto shadow-medium">
+        <CardHeader className="text-center bg-gradient-subtle rounded-t-lg px-4 py-6 sm:px-6">
+          <CardTitle className="text-xl sm:text-2xl text-foreground">Studio Booking Request</CardTitle>
+          <p className="text-sm sm:text-base text-muted-foreground mt-2">Book your studio session at least 7 days in advance</p>
+        </CardHeader>
+        <CardContent className="p-4 sm:p-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div className="grid grid-cols-1 gap-4">
             <div className="space-y-2">
               <Label htmlFor="teamLeaderName" className="text-sm font-medium">Team Leader Name *</Label>
@@ -298,18 +298,25 @@ const BookingForm = () => {
             />
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full h-12 text-base font-medium" 
-            variant="gradient"
-            size="lg"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Submit Booking Request"}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+            <Button 
+              type="submit" 
+              className="w-full h-12 text-base font-medium" 
+              variant="gradient"
+              size="lg"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Booking Request"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* Success Popup */}
+      <BookingSuccessPopup 
+        isOpen={showSuccessPopup}
+        onClose={() => setShowSuccessPopup(false)}
+      />
+    </>
   );
 };
 

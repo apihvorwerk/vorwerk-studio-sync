@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navigation from '@/components/Navigation';
 import BookingForm from '@/components/BookingForm';
+import BookingCalendar from '@/components/BookingCalendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -266,6 +267,24 @@ const Index = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Booking Calendar Section */}
+        <section className="spacing-responsive-lg bg-muted/30">
+          <div className="container-responsive">
+            <div className="text-center mb-12">
+              <h2 className="text-responsive-2xl font-bold text-foreground mb-4">
+                View Approved Bookings
+              </h2>
+              <p className="text-responsive text-muted-foreground max-w-2xl mx-auto">
+                See who has booked each studio and when they're scheduled
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <BookingCalendar />
             </div>
           </div>
         </section>

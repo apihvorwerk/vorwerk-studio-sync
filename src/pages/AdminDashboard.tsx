@@ -425,7 +425,7 @@ const AdminDashboard = () => {
             <CardHeader className="pb-4">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                 <CardTitle className="text-lg sm:text-xl">Bookings for {format(selected, "PPP")}</CardTitle>
-                <Button 
+                <Button  
                   variant="outline" 
                   size="sm" 
                   onClick={() => setShowReportGenerator(true)}
