@@ -31,13 +31,12 @@ interface Booking {
 }
 
 const ALL_STUDIOS = [
-  { id: "experience-store", name: "Experience Store", sessions: ["11:00 AM - 7:00 PM"] },
-  { id: "studio-1", name: "Studio 1", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
-  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
-  { id: "studio-3", name: "Studio 3", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
+  { id: "studio-1", name: "Studio 1 (Main Studio)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
+  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
+  { id: "studio-3", name: "Studio 3 (Non Halal)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
 ];
 
-const DAILY_TOTAL_SLOTS = ALL_STUDIOS.reduce((sum, s) => sum + s.sessions.length, 0); // 7
+const DAILY_TOTAL_SLOTS = ALL_STUDIOS.reduce((sum, s) => sum + s.sessions.length, 0); // 9
 
 const AdminDashboard = () => {
   const [selected, setSelected] = useState<Date>(new Date());

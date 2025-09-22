@@ -14,24 +14,19 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 
 interface AdminBookingFormData {
-  teamLeaderName: string;
-  teamLeaderId: string;
-  email: string;
-  phone: string;
+  fullName: string;
   studio: string;
   session: string;
   date: Date | null;
-  notes: string;
   status: "pending" | "approved" | "rejected";
 }
 
 type BookingStatus = "pending" | "approved" | "rejected";
 
 const studios = [
-  { id: "experience-store", name: "Experience Store", sessions: ["11:00 AM - 7:00 PM"] },
-  { id: "studio-1", name: "Studio 1", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
-  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
-  { id: "studio-3", name: "Studio 3", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM"] },
+  { id: "studio-1", name: "Studio 1 (Main Studio)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
+  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
+  { id: "studio-3", name: "Studio 3 (Non Halal)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
 ];
 
 interface AdminBookingFormProps {
@@ -42,14 +37,10 @@ interface AdminBookingFormProps {
 
 const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBookingFormProps) => {
   const [formData, setFormData] = useState<AdminBookingFormData>({
-    teamLeaderName: "",
-    teamLeaderId: "",
-    email: "",
-    phone: "",
+    fullName: "",
     studio: "",
     session: "",
     date: selectedDate || null,
-    notes: "",
     status: "approved", // Default to approved for admin bookings
   });
 
@@ -61,22 +52,10 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
     e.preventDefault();
     
     // Validation
-    if (!formData.teamLeaderName || !formData.teamLeaderId || !formData.email || 
-        !formData.phone || !formData.studio || !formData.session || !formData.date) {
+    if (!formData.fullName || !formData.studio || !formData.session || !formData.date) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
         variant: "destructive",
       });
       return;
@@ -86,14 +65,14 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
 
     try {
       const booking = {
-        team_leader_name: formData.teamLeaderName,
-        team_leader_id: formData.teamLeaderId,
-        email: formData.email,
-        phone: formData.phone,
+        team_leader_name: formData.fullName,
+        team_leader_id: "ADMIN-BOOKING", // Default ID for admin bookings
+        email: "admin@vorwerk.com", // Default email for admin bookings
+        phone: "N/A", // Default phone for admin bookings
         studio: formData.studio,
         session: formData.session,
         date: formData.date ? new Date(formData.date).toISOString() : null,
-        notes: formData.notes,
+        notes: "Admin manual booking",
         status: formData.status,
         created_at: new Date().toISOString(),
       };
@@ -147,151 +126,83 @@ const AdminBookingForm = ({ onBookingCreated, onClose, selectedDate }: AdminBook
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-            <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="teamLeaderName" className="text-sm font-medium">Team Leader Name *</Label>
-                <Input
-                  id="teamLeaderName"
-                  value={formData.teamLeaderName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderName: e.target.value }))}
-                  placeholder="Enter full name"
-                  className="transition-colors focus:ring-primary h-11 text-base"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="teamLeaderId" className="text-sm font-medium">Team Leader ID *</Label>
-                <Input
-                  id="teamLeaderId"
-                  value={formData.teamLeaderId}
-                  onChange={(e) => setFormData(prev => ({ ...prev, teamLeaderId: e.target.value }))}
-                  placeholder="e.g., TL123456"
-                  className="transition-colors focus:ring-primary h-11 text-base"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="name@vorwerk.com"
-                  className="transition-colors focus:ring-primary h-11 text-base"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="text-sm font-medium">Phone Number *</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  placeholder="+49 123 456 7890"
-                  className="transition-colors focus:ring-primary h-11 text-base"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="studio" className="text-sm font-medium">Studio Location *</Label>
-                <Select 
-                  value={formData.studio} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, studio: value, session: "" }))}
-                >
-                  <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
-                    <SelectValue placeholder="Select a studio" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {studios.map((studio) => (
-                      <SelectItem key={studio.id} value={studio.id} className="text-base py-3">
-                        {studio.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="session" className="text-sm font-medium">Session Time *</Label>
-                <Select 
-                  value={formData.session} 
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, session: value }))}
-                  disabled={!formData.studio}
-                >
-                  <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
-                    <SelectValue placeholder="Select session time" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {selectedStudio?.sessions.map((session) => (
-                      <SelectItem key={session} value={session} className="text-base py-3">
-                        {session}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="date" className="text-sm font-medium">Booking Date *</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal h-11 text-base",
-                        !formData.date && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">
-                        {formData.date ? format(formData.date, "PPP") : "Select booking date"}
-                      </span>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={formData.date || undefined}
-                      onSelect={(date) => setFormData(prev => ({ ...prev, date: date || null }))}
-                      initialFocus
-                      className={cn("p-3 pointer-events-auto")}
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="status" className="text-sm font-medium">Booking Status *</Label>
-                <Select 
-                  value={formData.status} 
-                  onValueChange={(value: BookingStatus) => setFormData(prev => ({ ...prev, status: value }))}
-                >
-                  <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="approved" className="text-base py-3">Approved</SelectItem>
-                    <SelectItem value="pending" className="text-base py-3">Pending</SelectItem>
-                    <SelectItem value="rejected" className="text-base py-3">Rejected</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="fullName" className="text-sm font-medium">Full Name *</Label>
+              <Input
+                id="fullName"
+                value={formData.fullName}
+                onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+                placeholder="Enter full name"
+                className="transition-colors focus:ring-primary h-11 text-base"
+              />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes" className="text-sm font-medium">Additional Notes (Optional)</Label>
-              <Textarea
-                id="notes"
-                value={formData.notes}
-                onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-                placeholder="Any special requirements or additional information..."
-                rows={3}
-                className="transition-colors focus:ring-primary text-base resize-none"
-              />
+              <Label htmlFor="studio" className="text-sm font-medium">Studio *</Label>
+              <Select 
+                value={formData.studio} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, studio: value, session: "" }))}
+              >
+                <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
+                  <SelectValue placeholder="Select a studio" />
+                </SelectTrigger>
+                <SelectContent>
+                  {studios.map((studio) => (
+                    <SelectItem key={studio.id} value={studio.id} className="text-base py-3">
+                      {studio.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="session" className="text-sm font-medium">Time *</Label>
+              <Select 
+                value={formData.session} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, session: value }))}
+                disabled={!formData.studio}
+              >
+                <SelectTrigger className="transition-colors focus:ring-primary h-11 text-base">
+                  <SelectValue placeholder="Select session time" />
+                </SelectTrigger>
+                <SelectContent>
+                  {selectedStudio?.sessions.map((session) => (
+                    <SelectItem key={session} value={session} className="text-base py-3">
+                      {session}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="date" className="text-sm font-medium">Booking Date *</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal h-11 text-base",
+                      !formData.date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">
+                      {formData.date ? format(formData.date, "PPP") : "Select booking date"}
+                    </span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={formData.date || undefined}
+                    onSelect={(date) => setFormData(prev => ({ ...prev, date: date || null }))}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">

@@ -39,40 +39,32 @@ const Index = () => {
 
   const studios = [
     {
-      id: 'experience-store',
-      name: 'Thermomix Experience Store - Level G',
-      description: 'Interactive Thermomix TM7 demonstrations and hands-on cooking experiences',
-      capacity: '20 people',
-      duration: '11:00 AM - 7:00 PM',
-      features: ['Demo Kitchen', '5 Thermomix 7', 'Customer Lounge'],
-      image: '/image.jpg',
-      popular: true
-    },
-    {
       id: 'studio-1',
-      name: 'Studio 1 - Level 1',
-      description: 'Professional cooking and culinary creation experience',
-      capacity: '25 people',
-      duration: '2 sessions available',
-      features: ['60 Pax Max', 'Screen Display', 'Big Place'],
-      image: '/Studio 1.jpg'
+      name: 'STUDIO 1 (MAIN STUDIO) Level 1',
+      description: 'Versatile Cooking & Demonstration Experience',
+      capacity: 'Maximum 60 participants per session',
+      duration: 'MORNING 10:00 AM – 1:00 PM | AFTERNOON 2:00 PM – 5:00 PM | FULL DAY 10:00 AM - 5:00PM',
+      features: ['2 x Thermomix® TM7 available', 'Screen Display', 'PA System', 'Live Camera'],
+      image: '/Studio 1.jpg',
+      popular: true,
+      minBooking: 'Minimum booking requirement: 25 participants'
     },
     {
       id: 'studio-2',
-      name: 'Studio 2 - Level 1',
-      description: 'Versatile cooking and live demonstration experience',
-      capacity: '8 people',
-      duration: '2 sessions available',
-      features: ['Video Conferencing', 'Neat Place', 'Chill Cooking'],
+      name: 'STUDIO 2 Level 1',
+      description: 'Versatile Cooking & Demonstration Experience',
+      capacity: 'Maximum 8 participants per session',
+      duration: 'MORNING 10:00 AM – 1:00 PM | AFTERNOON 2:00 PM – 5:00 PM | FULL DAY 10:00 AM - 5:00PM',
+      features: ['1 x Thermomix® TM7 available'],
       image: '/Studio 2 and 3.jpg'
     },
     {
       id: 'studio-3',
-      name: 'Studio 3 - Level 1',
-      description: 'Creative cooking workshops and collaborative culinary experiences',
-      capacity: '8 people',
-      duration: '2 sessions available',
-      features: ['Non-Halal', 'Best Place', 'Best Cooking'],
+      name: 'STUDIO 3 Level 1 (NON HALAL)',
+      description: 'Versatile Cooking & Demonstration Experience',
+      capacity: 'Maximum 8 participants per session',
+      duration: 'MORNING 10:00 AM – 1:00 PM | AFTERNOON 2:00 PM – 5:00 PM | FULL DAY 10:00 AM - 5:00PM',
+      features: ['1 x Thermomix® TM7 available'],
       image: '/Studio 2 and 3.jpg'
     }
   ];
@@ -129,12 +121,11 @@ const Index = () => {
                   size="lg" 
                   className="btn-responsive w-full sm:w-auto"
                   onClick={() => {
-                    const bookingSection = document.getElementById('booking-form');
-                    bookingSection?.scrollIntoView({ behavior: 'smooth' });
+                    window.open('https://vorwerk-studio-sync.vercel.app/', '_blank');
                   }}
                 >
                   <Calendar className="h-5 w-5 mr-2" />
-                  Book Now
+                  Call Admin and View Schedule
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
                 <Button 
@@ -232,30 +223,47 @@ const Index = () => {
                         </Badge>
                         <Badge variant="secondary" className="text-xs">
                           <Clock className="h-3 w-3 mr-1" />
-                          {studio.duration}
+                          Session Times
                         </Badge>
                       </div>
 
-                      <div>
-                        <p className="text-sm font-medium text-foreground mb-2">Features:</p>
-                        <div className="flex flex-wrap gap-1">
-                          {studio.features.map((feature, idx) => (
-                            <Badge key={idx} variant="outline" className="text-xs">
-                              <CheckCircle className="h-3 w-3 mr-1" />
-                              {feature}
-                            </Badge>
-                          ))}
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-sm font-medium text-foreground mb-2">Session Times:</p>
+                          <div className="text-xs text-muted-foreground space-y-1">
+                            <div>MORNING 10:00 AM – 1:00 PM</div>
+                            <div>AFTERNOON 2:00 PM – 5:00 PM</div>
+                            <div>FULL DAY 10:00 AM - 5:00PM</div>
+                          </div>
+                        </div>
+
+                        {studio.minBooking && (
+                          <div>
+                            <p className="text-sm font-medium text-foreground mb-1">Capacity:</p>
+                            <p className="text-xs text-muted-foreground">{studio.minBooking}</p>
+                          </div>
+                        )}
+
+                        <div>
+                          <p className="text-sm font-medium text-foreground mb-2">Equipment:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {studio.features.map((feature, idx) => (
+                              <Badge key={idx} variant="outline" className="text-xs">
+                                <CheckCircle className="h-3 w-3 mr-1" />
+                                {feature}
+                              </Badge>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
                       <Button 
                         className="w-full btn-responsive"
                         onClick={() => {
-                          const bookingSection = document.getElementById('booking-form');
-                          bookingSection?.scrollIntoView({ behavior: 'smooth' });
+                          window.open('https://vorwerk-studio-sync.vercel.app/', '_blank');
                         }}
                       >
-                        Book {studio.name}
+                        Call Admin and View Schedule
                         <ArrowRight className="h-4 w-4 ml-2" />
                       </Button>
                     </div>
