@@ -31,9 +31,10 @@ interface Booking {
 }
 
 const ALL_STUDIOS = [
-  { id: "studio-1", name: "Studio 1 (Main Studio)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
-  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
-  { id: "studio-3", name: "Studio 3 (Non Halal)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM"] },
+  { id: "experience-store", name: "Experience Store", sessions: ["11:00 AM - 7:00 PM"] },
+  { id: "studio-1", name: "Studio 1 (Main Studio)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM (Full Day)"] },
+  { id: "studio-2", name: "Studio 2", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM (Full Day)"] },
+  { id: "studio-3", name: "Studio 3 (Non Halal)", sessions: ["10:00 AM - 1:00 PM", "2:00 PM - 5:00 PM", "10:00 AM - 5:00 PM (Full Day)"] },
 ];
 
 const DAILY_TOTAL_SLOTS = ALL_STUDIOS.reduce((sum, s) => sum + s.sessions.length, 0); // 9
@@ -241,7 +242,28 @@ const AdminDashboard = () => {
     }
     return ALL_STUDIOS.map(s => {
       const booked = dayMap.get(s.id) ?? new Set<string>();
-      const available = s.sessions.filter(sess => !booked.has(sess));
+      
+      // Check if there's a full day booking
+      const hasFullDayBooking = Array.from(booked).some(session => session.includes('Full Day'));
+      
+      let available: string[];
+      if (hasFullDayBooking) {
+        // If full day is booked, no other sessions are available
+        available = [];
+      } else {
+        // Filter out booked sessions and full day if there are any other bookings
+        available = s.sessions.filter(sess => {
+          if (!booked.has(sess)) {
+            // If this is a full day session and there are existing bookings, it's not available
+            if (sess.includes('Full Day') && booked.size > 0) {
+              return false;
+            }
+            return true;
+          }
+          return false;
+        });
+      }
+      
       return { studio: s, available, booked: Array.from(booked) };
     });
   }, [dayBookings]);

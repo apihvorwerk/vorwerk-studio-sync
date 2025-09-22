@@ -79,16 +79,23 @@ const Navigation = () => {
   };
 
   const handleBookStudio = () => {
-    window.open('https://vorwerk-studio-sync.vercel.app/', '_blank');
+    navigate('/');
     setIsMobileMenuOpen(false);
+    // Scroll to booking form if on homepage
+    setTimeout(() => {
+      const bookingSection = document.getElementById('booking-form');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const navigationLinks = [
     {
-      label: 'Call Admin and View Schedule',
+      label: 'Book Studio',
       action: handleBookStudio,
       icon: Calendar,
-      description: 'Contact admin and view booking schedule',
+      description: 'Schedule a studio session',
       primary: true
     },
     {
@@ -149,7 +156,7 @@ const Navigation = () => {
                 className="ml-2"
               >
                 <Calendar className="h-4 w-4 mr-2" />
-                Call Admin
+                Book Studio
               </Button>
             </div>
 

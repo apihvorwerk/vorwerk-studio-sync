@@ -39,6 +39,16 @@ const Index = () => {
 
   const studios = [
     {
+      id: 'experience-store',
+      name: 'Thermomix Experience Store - Level G',
+      description: 'Interactive Thermomix TM7 demonstrations and hands-on cooking experiences',
+      capacity: '20 people',
+      duration: '11:00 AM - 7:00 PM',
+      features: ['Demo Kitchen', '5 Thermomix 7', 'Customer Lounge'],
+      image: '/image.jpg',
+      popular: true
+    },
+    {
       id: 'studio-1',
       name: 'STUDIO 1 (MAIN STUDIO) Level 1',
       description: 'Versatile Cooking & Demonstration Experience',
@@ -121,11 +131,12 @@ const Index = () => {
                   size="lg" 
                   className="btn-responsive w-full sm:w-auto"
                   onClick={() => {
-                    window.open('https://vorwerk-studio-sync.vercel.app/', '_blank');
+                    const bookingSection = document.getElementById('booking-form');
+                    bookingSection?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
                   <Calendar className="h-5 w-5 mr-2" />
-                  Call Admin and View Schedule
+                  Book Now
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
                 <Button 
@@ -223,29 +234,14 @@ const Index = () => {
                         </Badge>
                         <Badge variant="secondary" className="text-xs">
                           <Clock className="h-3 w-3 mr-1" />
-                          Session Times
+                          {studio.id === 'experience-store' ? studio.duration : 'Session Times'}
                         </Badge>
                       </div>
 
-                      <div className="space-y-3">
+                      {studio.id === 'experience-store' ? (
+                        // Simple layout for Experience Store
                         <div>
-                          <p className="text-sm font-medium text-foreground mb-2">Session Times:</p>
-                          <div className="text-xs text-muted-foreground space-y-1">
-                            <div>MORNING 10:00 AM – 1:00 PM</div>
-                            <div>AFTERNOON 2:00 PM – 5:00 PM</div>
-                            <div>FULL DAY 10:00 AM - 5:00PM</div>
-                          </div>
-                        </div>
-
-                        {studio.minBooking && (
-                          <div>
-                            <p className="text-sm font-medium text-foreground mb-1">Capacity:</p>
-                            <p className="text-xs text-muted-foreground">{studio.minBooking}</p>
-                          </div>
-                        )}
-
-                        <div>
-                          <p className="text-sm font-medium text-foreground mb-2">Equipment:</p>
+                          <p className="text-sm font-medium text-foreground mb-2">Features:</p>
                           <div className="flex flex-wrap gap-1">
                             {studio.features.map((feature, idx) => (
                               <Badge key={idx} variant="outline" className="text-xs">
@@ -255,15 +251,51 @@ const Index = () => {
                             ))}
                           </div>
                         </div>
-                      </div>
+                      ) : (
+                        // Detailed layout for Studios 1, 2, 3
+                        <div className="space-y-3">
+                          <div>
+                            <p className="text-sm font-medium text-foreground mb-2">Session Times:</p>
+                            <div className="text-xs text-muted-foreground space-y-1">
+                              <div>MORNING 10:00 AM – 1:00 PM</div>
+                              <div>AFTERNOON 2:00 PM – 5:00 PM</div>
+                              <div>FULL DAY 10:00 AM - 5:00PM</div>
+                            </div>
+                          </div>
+
+                          {studio.minBooking && (
+                            <div>
+                              <p className="text-sm font-medium text-foreground mb-1">Capacity:</p>
+                              <p className="text-xs text-muted-foreground">{studio.minBooking}</p>
+                            </div>
+                          )}
+
+                          <div>
+                            <p className="text-sm font-medium text-foreground mb-2">Equipment:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {studio.features.map((feature, idx) => (
+                                <Badge key={idx} variant="outline" className="text-xs">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  {feature}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <Button 
                         className="w-full btn-responsive"
                         onClick={() => {
-                          window.open('https://vorwerk-studio-sync.vercel.app/', '_blank');
+                          if (studio.id === 'experience-store') {
+                            window.open('https://vorwerk-studio-sync.vercel.app/', '_blank');
+                          } else {
+                            const bookingSection = document.getElementById('booking-form');
+                            bookingSection?.scrollIntoView({ behavior: 'smooth' });
+                          }
                         }}
                       >
-                        Call Admin and View Schedule
+                        {studio.id === 'experience-store' ? 'Call Admin and View Schedule' : `Book ${studio.name}`}
                         <ArrowRight className="h-4 w-4 ml-2" />
                       </Button>
                     </div>
